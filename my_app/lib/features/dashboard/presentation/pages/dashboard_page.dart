@@ -1,48 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../config/routes/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_sizes.dart';
-import '../../../../core/utils/scan_classification.dart';
+import '../../../../core/utils/app_formatters.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../../history/domain/entities/scan_history_summary_entity.dart';
+import '../providers/dashboard_summary_provider.dart';
 
 /// Primary dashboard for security posture and scan activity.
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends ConsumerWidget {
   /// Creates the dashboard page.
   const DashboardPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const statistics = <_DashboardStat>[
-      _DashboardStat(
-        title: 'Total Scanned Files',
-        value: '0',
-        caption: 'No scans recorded yet',
-        icon: Icons.insert_drive_file_outlined,
-        color: AppColors.primary,
-      ),
-      _DashboardStat(
-        title: 'Safe Files',
-        value: '0',
-        caption: 'Awaiting baseline results',
-        icon: Icons.verified_user_outlined,
-        color: AppColors.success,
-      ),
-      _DashboardStat(
-        title: 'Suspicious Files',
-        value: '0',
-        caption: 'No elevated items detected',
-        icon: Icons.warning_amber_rounded,
-        color: AppColors.warning,
-      ),
-      _DashboardStat(
-        title: 'Malware Detected',
-        value: '0',
-        caption: 'Critical findings will appear here',
-        icon: Icons.report_gmailerrorred_rounded,
-        color: AppColors.danger,
-      ),
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final summaryAsync = ref.watch(dashboardSummaryProvider);
+    final recentHistoryAsync = ref.watch(dashboardRecentHistoryProvider);
 
     return SingleChildScrollView(
       child: ResponsiveContainer(
@@ -60,97 +35,251 @@ class DashboardPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppSizes.xl),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final itemWidth =
-                    constraints.maxWidth >= AppSizes.tabletBreakpoint
-                    ? (constraints.maxWidth - AppSizes.md) / 2
-                    : constraints.maxWidth;
-
-                return Wrap(
-                  spacing: AppSizes.md,
-                  runSpacing: AppSizes.md,
-                  children: statistics
-                      .map(
-                        (stat) => SizedBox(
-                          width: itemWidth,
-                          child: StatCard(
-                            title: stat.title,
-                            value: stat.value,
-                            caption: stat.caption,
-                            icon: stat.icon,
-                            highlightColor: stat.color,
-                          ),
-                        ),
-                      )
-                      .toList(),
-                );
-              },
-            ),
-            const SizedBox(height: AppSizes.xl),
-            const SectionHeader(
-              title: 'Threat Overview',
-              subtitle:
-                  'Distribution panels will visualize prediction results as scans are recorded.',
-            ),
-            const SizedBox(height: AppSizes.md),
-            const CyberCard(
-              child: Column(
-                children: [
-                  _StatusBar(
-                    title: 'Safe Ratio',
-                    value: '0%',
-                    progress: 0,
-                    color: AppColors.success,
-                  ),
-                  SizedBox(height: AppSizes.md),
-                  _StatusBar(
-                    title: 'Suspicious Ratio',
-                    value: '0%',
-                    progress: 0,
-                    color: AppColors.warning,
-                  ),
-                  SizedBox(height: AppSizes.md),
-                  _StatusBar(
-                    title: 'Malware Ratio',
-                    value: '0%',
-                    progress: 0,
-                    color: AppColors.danger,
-                  ),
-                ],
+            summaryAsync.when(
+              data: (summary) => _DashboardStatistics(summary: summary),
+              loading: () => const _DashboardLoadingCard(),
+              error: (error, stackTrace) => ErrorCard(
+                title: 'Dashboard data unavailable',
+                message: error.toString(),
               ),
             ),
             const SizedBox(height: AppSizes.xl),
-            const SectionHeader(
-              title: 'Last Scan',
-              subtitle:
-                  'The latest detection summary will surface here for quick review.',
-            ),
-            const SizedBox(height: AppSizes.md),
-            const ResultCard(
-              classification: ScanClassification.safe,
-              confidence: 0,
-              message:
-                  'No inference has been executed yet. The prediction card is ready for the API response contract.',
-              processingTime: '--',
+            summaryAsync.when(
+              data: (summary) => _ThreatOverview(summary: summary),
+              loading: () => const _DashboardLoadingCard(),
+              error: (error, stackTrace) => const SizedBox.shrink(),
             ),
             const SizedBox(height: AppSizes.xl),
-            const SectionHeader(
+            summaryAsync.when(
+              data: (summary) => _LastScanSection(summary: summary),
+              loading: () => const _DashboardLoadingCard(),
+              error: (error, stackTrace) => const SizedBox.shrink(),
+            ),
+            const SizedBox(height: AppSizes.xl),
+            SectionHeader(
               title: 'Recent Scan History',
               subtitle:
-                  'Recent file and image assessments will be saved to local storage in the next phase.',
+                  'Persisted file and image assessments are stored in the local database automatically.',
+              trailing: SecondaryButton(
+                label: 'View All',
+                icon: Icons.chevron_right_rounded,
+                onPressed: () => AppRouter.goToHistory(context),
+              ),
             ),
             const SizedBox(height: AppSizes.md),
-            const CyberCard(
-              child: EmptyState(
-                icon: Icons.history_toggle_off_outlined,
-                title: 'No scan records available',
-                message:
-                    'Run a file or image scan to populate the operational history panel.',
+            recentHistoryAsync.when(
+              data: (records) => records.isEmpty
+                  ? const CyberCard(
+                      child: EmptyState(
+                        icon: Icons.history_toggle_off_outlined,
+                        title: 'No scan records available',
+                        message:
+                            'Run a file or image scan to populate the operational history panel.',
+                      ),
+                    )
+                  : Column(
+                      children: records
+                          .map(
+                            (record) => Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: AppSizes.md,
+                              ),
+                              child: HistoryTile(
+                                fileName: record.fileName,
+                                extension: record.extension.toUpperCase(),
+                                fileSize: AppFormatters.formatFileSize(
+                                  record.sizeInBytes,
+                                ),
+                                scanDate: AppFormatters.formatDateTime(
+                                  record.scanDate,
+                                ),
+                                classification: record.classification,
+                                confidence: record.confidence,
+                                onTap: () => AppRouter.openScanResult(
+                                  context,
+                                  record.toScanReport(),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+              loading: () => const _DashboardLoadingCard(),
+              error: (error, stackTrace) => ErrorCard(
+                title: 'Recent history unavailable',
+                message: error.toString(),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _DashboardStatistics extends StatelessWidget {
+  const _DashboardStatistics({required this.summary});
+
+  final ScanHistorySummaryEntity summary;
+
+  @override
+  Widget build(BuildContext context) {
+    final statistics = <_DashboardStat>[
+      _DashboardStat(
+        title: 'Total Scanned Files',
+        value: '${summary.totalScannedFiles}',
+        caption: 'Persisted local scan records',
+        icon: Icons.insert_drive_file_outlined,
+        color: AppColors.primary,
+      ),
+      _DashboardStat(
+        title: 'Safe Files',
+        value: '${summary.safeFiles}',
+        caption: 'Low-risk assessments',
+        icon: Icons.verified_user_outlined,
+        color: AppColors.success,
+      ),
+      _DashboardStat(
+        title: 'Suspicious Files',
+        value: '${summary.suspiciousFiles}',
+        caption: 'Manual review recommended',
+        icon: Icons.warning_amber_rounded,
+        color: AppColors.warning,
+      ),
+      _DashboardStat(
+        title: 'Malware Detected',
+        value: '${summary.malwareDetectedFiles}',
+        caption: 'Critical findings',
+        icon: Icons.report_gmailerrorred_rounded,
+        color: AppColors.danger,
+      ),
+    ];
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final itemWidth = constraints.maxWidth >= AppSizes.tabletBreakpoint
+            ? (constraints.maxWidth - AppSizes.md) / 2
+            : constraints.maxWidth;
+
+        return Wrap(
+          spacing: AppSizes.md,
+          runSpacing: AppSizes.md,
+          children: statistics
+              .map(
+                (stat) => SizedBox(
+                  width: itemWidth,
+                  child: StatCard(
+                    title: stat.title,
+                    value: stat.value,
+                    caption: stat.caption,
+                    icon: stat.icon,
+                    highlightColor: stat.color,
+                  ),
+                ),
+              )
+              .toList(),
+        );
+      },
+    );
+  }
+}
+
+class _ThreatOverview extends StatelessWidget {
+  const _ThreatOverview({required this.summary});
+
+  final ScanHistorySummaryEntity summary;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionHeader(
+          title: 'Threat Overview',
+          subtitle:
+              'Distribution panels summarize persisted model classifications.',
+        ),
+        const SizedBox(height: AppSizes.md),
+        CyberCard(
+          child: Column(
+            children: [
+              _StatusBar(
+                title: 'Safe Ratio',
+                value: '${(summary.safeRatio * 100).toStringAsFixed(1)}%',
+                progress: summary.safeRatio,
+                color: AppColors.success,
+              ),
+              const SizedBox(height: AppSizes.md),
+              _StatusBar(
+                title: 'Suspicious Ratio',
+                value: '${(summary.suspiciousRatio * 100).toStringAsFixed(1)}%',
+                progress: summary.suspiciousRatio,
+                color: AppColors.warning,
+              ),
+              const SizedBox(height: AppSizes.md),
+              _StatusBar(
+                title: 'Malware Ratio',
+                value: '${(summary.malwareRatio * 100).toStringAsFixed(1)}%',
+                progress: summary.malwareRatio,
+                color: AppColors.danger,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _LastScanSection extends StatelessWidget {
+  const _LastScanSection({required this.summary});
+
+  final ScanHistorySummaryEntity summary;
+
+  @override
+  Widget build(BuildContext context) {
+    final lastScan = summary.lastScan;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionHeader(
+          title: 'Last Scan',
+          subtitle:
+              'The latest persisted detection summary is surfaced here for quick review.',
+        ),
+        const SizedBox(height: AppSizes.md),
+        if (lastScan == null)
+          const CyberCard(
+            child: EmptyState(
+              icon: Icons.search_off_rounded,
+              title: 'No completed scans yet',
+              message:
+                  'The result summary will appear here after the first successful scan.',
+            ),
+          )
+        else
+          ResultCard(
+            classification: lastScan.classification,
+            confidence: lastScan.confidence,
+            processingTime: lastScan.processingTime,
+            message:
+                '${lastScan.fileName} • ${AppFormatters.formatDateTime(lastScan.scanDate)}',
+          ),
+      ],
+    );
+  }
+}
+
+class _DashboardLoadingCard extends StatelessWidget {
+  const _DashboardLoadingCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return const CyberCard(
+      child: SizedBox(
+        height: 120,
+        child: Center(child: CircularProgressIndicator()),
       ),
     );
   }

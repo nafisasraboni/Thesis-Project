@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_limits.dart';
 import '../../../../core/network/app_exception.dart';
 import '../../../../core/network/dio_provider.dart';
+import '../../../../features/history/domain/usecases/save_scan_history_use_case.dart';
+import '../../../../shared/providers/history_providers.dart';
 import '../../data/datasources/prediction_remote_data_source.dart';
 import '../../data/repositories/prediction_repository_impl.dart';
 import '../../data/services/prediction_service.dart';
@@ -63,6 +65,9 @@ class ScannerController extends Notifier<ScannerState> {
   PredictionUseCase get _predictionUseCase =>
       ref.read(predictionUseCaseProvider);
 
+  SaveScanHistoryUseCase get _saveScanHistoryUseCase =>
+      ref.read(saveScanHistoryUseCaseProvider);
+
   @override
   ScannerState build() {
     return const ScannerState();
@@ -115,13 +120,16 @@ class ScannerController extends Notifier<ScannerState> {
 
       await Future<void>.delayed(const Duration(milliseconds: 250));
 
+      final report = ScanReportEntity(
+        asset: selectedAsset,
+        prediction: prediction,
+        scanDate: DateTime.now(),
+      );
+      await _saveScanHistoryUseCase(report);
+
       state = state.copyWith(
         status: ScannerStatus.success,
-        latestReport: ScanReportEntity(
-          asset: selectedAsset,
-          prediction: prediction,
-          scanDate: DateTime.now(),
-        ),
+        latestReport: report,
       );
     } on AppException catch (error) {
       state = state.copyWith(

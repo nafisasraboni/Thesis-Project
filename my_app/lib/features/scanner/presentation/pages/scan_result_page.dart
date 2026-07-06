@@ -35,7 +35,7 @@ class ScanResultPage extends StatelessWidget {
               SectionHeader(
                 title: prediction.prediction,
                 subtitle:
-                    'Threat Level: ${prediction.threatLevel} • Scan Date: ${AppFormatters.formatDateTime(report.scanDate)}',
+                    'Threat Level: ${prediction.threatLevel} | Scan Date: ${AppFormatters.formatDateTime(report.scanDate)}',
               ),
               const SizedBox(height: AppSizes.xl),
               ResultCard(
@@ -132,7 +132,7 @@ class ScanResultPage extends StatelessWidget {
                   ],
                 ),
               ),
-              if (asset.isImage) ...[
+              if (asset.isImage && asset.bytes.isNotEmpty) ...[
                 const SizedBox(height: AppSizes.xl),
                 ImagePreviewCard(
                   image: MemoryImage(asset.bytes),
