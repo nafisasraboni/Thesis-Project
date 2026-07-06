@@ -8,6 +8,7 @@ import '../../../../core/network/app_exception.dart';
 import '../../../../core/network/dio_provider.dart';
 import '../../../../features/history/domain/usecases/save_scan_history_use_case.dart';
 import '../../../../shared/providers/history_providers.dart';
+import '../../../../shared/providers/settings_providers.dart';
 import '../../data/datasources/prediction_remote_data_source.dart';
 import '../../data/repositories/prediction_repository_impl.dart';
 import '../../data/services/prediction_service.dart';
@@ -28,7 +29,10 @@ const scannerStages = <String>[
 ];
 
 final predictionServiceProvider = Provider<PredictionService>(
-  (ref) => PredictionService(ref.watch(dioProvider)),
+  (ref) => PredictionService(
+    ref.watch(dioProvider),
+    () => ref.read(currentAppSettingsProvider),
+  ),
 );
 
 final predictionRemoteDataSourceProvider = Provider<PredictionRemoteDataSource>(
@@ -67,6 +71,9 @@ class ScannerController extends Notifier<ScannerState> {
 
   SaveScanHistoryUseCase get _saveScanHistoryUseCase =>
       ref.read(saveScanHistoryUseCaseProvider);
+
+  bool get _shouldSaveHistory =>
+      ref.read(currentAppSettingsProvider).saveScanHistory;
 
   @override
   ScannerState build() {
@@ -125,7 +132,9 @@ class ScannerController extends Notifier<ScannerState> {
         prediction: prediction,
         scanDate: DateTime.now(),
       );
-      await _saveScanHistoryUseCase(report);
+      if (_shouldSaveHistory) {
+        await _saveScanHistoryUseCase(report);
+      }
 
       state = state.copyWith(
         status: ScannerStatus.success,

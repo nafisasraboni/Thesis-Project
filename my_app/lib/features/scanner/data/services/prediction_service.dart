@@ -1,18 +1,20 @@
 import 'package:dio/dio.dart';
 
-import '../../../../core/network/api_config.dart';
+import '../../../settings/domain/entities/app_settings_entity.dart';
 import '../../domain/entities/scan_asset_entity.dart';
 
 /// Low-level prediction service responsible for the HTTP contract.
 class PredictionService {
   /// Creates a prediction service.
-  const PredictionService(this._dio);
+  const PredictionService(this._dio, this._getSettings);
 
   final Dio _dio;
+  final AppSettingsEntity Function() _getSettings;
 
   /// Sends the selected asset to the prediction endpoint.
   Future<Map<String, dynamic>> predict(ScanAssetEntity asset) async {
-    if (ApiConfig.useMockPrediction) {
+    final settings = _getSettings();
+    if (settings.useMockPrediction) {
       return _mockResponse(asset);
     }
 
@@ -21,7 +23,7 @@ class PredictionService {
     });
 
     final response = await _dio.post<Map<String, dynamic>>(
-      ApiConfig.predictionEndpoint,
+      '/api/predict',
       data: formData,
       options: Options(contentType: 'multipart/form-data'),
     );

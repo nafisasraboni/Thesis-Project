@@ -3,20 +3,35 @@ import 'dart:convert';
 import 'package:drift/drift.dart';
 
 import '../../features/history/data/models/scan_history_record_model.dart';
+import '../../features/settings/data/models/app_settings_model.dart';
+import '../../features/settings/domain/entities/app_settings_entity.dart';
 import '../../features/history/domain/entities/history_query_entity.dart';
 import 'connection/connection.dart';
+import 'tables/app_settings_entries.dart';
 import 'tables/scan_history_entries.dart';
 
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [ScanHistoryEntries])
+@DriftDatabase(tables: [ScanHistoryEntries, AppSettingsEntries])
 class AppDatabase extends _$AppDatabase {
   /// Creates the application database.
   AppDatabase({QueryExecutor? executor})
     : super(executor ?? openDatabaseConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (Migrator migrator) async {
+      await migrator.createAll();
+    },
+    onUpgrade: (Migrator migrator, int from, int to) async {
+      if (from < 2) {
+        await migrator.createTable(appSettingsEntries);
+      }
+    },
+  );
 
   Future<void> insertScanHistory(ScanHistoryEntriesCompanion entry) {
     return into(scanHistoryEntries).insert(entry);
@@ -66,6 +81,42 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> clearHistory() {
     return delete(scanHistoryEntries).go();
+  }
+
+  Stream<AppSettingsModel> watchAppSettings() {
+    final statement = select(appSettingsEntries);
+    return statement.watchSingleOrNull().map((row) {
+      if (row == null) {
+        return AppSettingsModel.defaults();
+      }
+
+      return AppSettingsModel(
+        useMockPrediction: row.useMockPrediction,
+        predictionBaseUrl: row.predictionBaseUrl,
+        requestTimeoutSeconds: row.requestTimeoutSeconds,
+        saveScanHistory: row.saveScanHistory,
+        analyticsWindowDays: row.analyticsWindowDays,
+      );
+    });
+  }
+
+  Future<AppSettingsModel> getAppSettings() async {
+    final row = await select(appSettingsEntries).getSingleOrNull();
+    if (row == null) {
+      return AppSettingsModel.defaults();
+    }
+
+    return AppSettingsModel(
+      useMockPrediction: row.useMockPrediction,
+      predictionBaseUrl: row.predictionBaseUrl,
+      requestTimeoutSeconds: row.requestTimeoutSeconds,
+      saveScanHistory: row.saveScanHistory,
+      analyticsWindowDays: row.analyticsWindowDays,
+    );
+  }
+
+  Future<void> saveAppSettings(AppSettingsEntriesCompanion entry) {
+    return into(appSettingsEntries).insertOnConflictUpdate(entry);
   }
 
   SimpleSelectStatement<$ScanHistoryEntriesTable, ScanHistoryEntry>
@@ -119,6 +170,19 @@ class AppDatabase extends _$AppDatabase {
         .replaceAll('%', r'\%')
         .replaceAll('_', r'\_');
   }
+}
+
+AppSettingsEntriesCompanion buildAppSettingsCompanion(
+  AppSettingsEntity settings,
+) {
+  return AppSettingsEntriesCompanion.insert(
+    id: const Value<int>(1),
+    useMockPrediction: settings.useMockPrediction,
+    predictionBaseUrl: settings.predictionBaseUrl,
+    requestTimeoutSeconds: settings.requestTimeoutSeconds,
+    saveScanHistory: settings.saveScanHistory,
+    analyticsWindowDays: settings.analyticsWindowDays,
+  );
 }
 
 ScanHistoryEntriesCompanion buildScanHistoryCompanion({

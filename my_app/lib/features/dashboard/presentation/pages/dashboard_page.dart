@@ -194,10 +194,15 @@ class _ThreatOverview extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionHeader(
+        SectionHeader(
           title: 'Threat Overview',
           subtitle:
               'Distribution panels summarize persisted model classifications.',
+          trailing: SecondaryButton(
+            label: 'Open Analytics',
+            icon: Icons.analytics_outlined,
+            onPressed: () => AppRouter.goToAnalytics(context),
+          ),
         ),
         const SizedBox(height: AppSizes.md),
         CyberCard(

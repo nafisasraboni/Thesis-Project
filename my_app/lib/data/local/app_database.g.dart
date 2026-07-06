@@ -668,16 +668,463 @@ class ScanHistoryEntriesCompanion extends UpdateCompanion<ScanHistoryEntry> {
   }
 }
 
+class $AppSettingsEntriesTable extends AppSettingsEntries
+    with TableInfo<$AppSettingsEntriesTable, AppSettingsEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AppSettingsEntriesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _useMockPredictionMeta = const VerificationMeta(
+    'useMockPrediction',
+  );
+  @override
+  late final GeneratedColumn<bool> useMockPrediction = GeneratedColumn<bool>(
+    'use_mock_prediction',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("use_mock_prediction" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _predictionBaseUrlMeta = const VerificationMeta(
+    'predictionBaseUrl',
+  );
+  @override
+  late final GeneratedColumn<String> predictionBaseUrl =
+      GeneratedColumn<String>(
+        'prediction_base_url',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _requestTimeoutSecondsMeta =
+      const VerificationMeta('requestTimeoutSeconds');
+  @override
+  late final GeneratedColumn<int> requestTimeoutSeconds = GeneratedColumn<int>(
+    'request_timeout_seconds',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _saveScanHistoryMeta = const VerificationMeta(
+    'saveScanHistory',
+  );
+  @override
+  late final GeneratedColumn<bool> saveScanHistory = GeneratedColumn<bool>(
+    'save_scan_history',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("save_scan_history" IN (0, 1))',
+    ),
+  );
+  static const VerificationMeta _analyticsWindowDaysMeta =
+      const VerificationMeta('analyticsWindowDays');
+  @override
+  late final GeneratedColumn<int> analyticsWindowDays = GeneratedColumn<int>(
+    'analytics_window_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    useMockPrediction,
+    predictionBaseUrl,
+    requestTimeoutSeconds,
+    saveScanHistory,
+    analyticsWindowDays,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'app_settings_entries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<AppSettingsEntry> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('use_mock_prediction')) {
+      context.handle(
+        _useMockPredictionMeta,
+        useMockPrediction.isAcceptableOrUnknown(
+          data['use_mock_prediction']!,
+          _useMockPredictionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_useMockPredictionMeta);
+    }
+    if (data.containsKey('prediction_base_url')) {
+      context.handle(
+        _predictionBaseUrlMeta,
+        predictionBaseUrl.isAcceptableOrUnknown(
+          data['prediction_base_url']!,
+          _predictionBaseUrlMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_predictionBaseUrlMeta);
+    }
+    if (data.containsKey('request_timeout_seconds')) {
+      context.handle(
+        _requestTimeoutSecondsMeta,
+        requestTimeoutSeconds.isAcceptableOrUnknown(
+          data['request_timeout_seconds']!,
+          _requestTimeoutSecondsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_requestTimeoutSecondsMeta);
+    }
+    if (data.containsKey('save_scan_history')) {
+      context.handle(
+        _saveScanHistoryMeta,
+        saveScanHistory.isAcceptableOrUnknown(
+          data['save_scan_history']!,
+          _saveScanHistoryMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_saveScanHistoryMeta);
+    }
+    if (data.containsKey('analytics_window_days')) {
+      context.handle(
+        _analyticsWindowDaysMeta,
+        analyticsWindowDays.isAcceptableOrUnknown(
+          data['analytics_window_days']!,
+          _analyticsWindowDaysMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_analyticsWindowDaysMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AppSettingsEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AppSettingsEntry(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      useMockPrediction: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}use_mock_prediction'],
+      )!,
+      predictionBaseUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}prediction_base_url'],
+      )!,
+      requestTimeoutSeconds: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}request_timeout_seconds'],
+      )!,
+      saveScanHistory: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}save_scan_history'],
+      )!,
+      analyticsWindowDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}analytics_window_days'],
+      )!,
+    );
+  }
+
+  @override
+  $AppSettingsEntriesTable createAlias(String alias) {
+    return $AppSettingsEntriesTable(attachedDatabase, alias);
+  }
+}
+
+class AppSettingsEntry extends DataClass
+    implements Insertable<AppSettingsEntry> {
+  final int id;
+  final bool useMockPrediction;
+  final String predictionBaseUrl;
+  final int requestTimeoutSeconds;
+  final bool saveScanHistory;
+  final int analyticsWindowDays;
+  const AppSettingsEntry({
+    required this.id,
+    required this.useMockPrediction,
+    required this.predictionBaseUrl,
+    required this.requestTimeoutSeconds,
+    required this.saveScanHistory,
+    required this.analyticsWindowDays,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['use_mock_prediction'] = Variable<bool>(useMockPrediction);
+    map['prediction_base_url'] = Variable<String>(predictionBaseUrl);
+    map['request_timeout_seconds'] = Variable<int>(requestTimeoutSeconds);
+    map['save_scan_history'] = Variable<bool>(saveScanHistory);
+    map['analytics_window_days'] = Variable<int>(analyticsWindowDays);
+    return map;
+  }
+
+  AppSettingsEntriesCompanion toCompanion(bool nullToAbsent) {
+    return AppSettingsEntriesCompanion(
+      id: Value(id),
+      useMockPrediction: Value(useMockPrediction),
+      predictionBaseUrl: Value(predictionBaseUrl),
+      requestTimeoutSeconds: Value(requestTimeoutSeconds),
+      saveScanHistory: Value(saveScanHistory),
+      analyticsWindowDays: Value(analyticsWindowDays),
+    );
+  }
+
+  factory AppSettingsEntry.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AppSettingsEntry(
+      id: serializer.fromJson<int>(json['id']),
+      useMockPrediction: serializer.fromJson<bool>(json['useMockPrediction']),
+      predictionBaseUrl: serializer.fromJson<String>(json['predictionBaseUrl']),
+      requestTimeoutSeconds: serializer.fromJson<int>(
+        json['requestTimeoutSeconds'],
+      ),
+      saveScanHistory: serializer.fromJson<bool>(json['saveScanHistory']),
+      analyticsWindowDays: serializer.fromJson<int>(
+        json['analyticsWindowDays'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'useMockPrediction': serializer.toJson<bool>(useMockPrediction),
+      'predictionBaseUrl': serializer.toJson<String>(predictionBaseUrl),
+      'requestTimeoutSeconds': serializer.toJson<int>(requestTimeoutSeconds),
+      'saveScanHistory': serializer.toJson<bool>(saveScanHistory),
+      'analyticsWindowDays': serializer.toJson<int>(analyticsWindowDays),
+    };
+  }
+
+  AppSettingsEntry copyWith({
+    int? id,
+    bool? useMockPrediction,
+    String? predictionBaseUrl,
+    int? requestTimeoutSeconds,
+    bool? saveScanHistory,
+    int? analyticsWindowDays,
+  }) => AppSettingsEntry(
+    id: id ?? this.id,
+    useMockPrediction: useMockPrediction ?? this.useMockPrediction,
+    predictionBaseUrl: predictionBaseUrl ?? this.predictionBaseUrl,
+    requestTimeoutSeconds: requestTimeoutSeconds ?? this.requestTimeoutSeconds,
+    saveScanHistory: saveScanHistory ?? this.saveScanHistory,
+    analyticsWindowDays: analyticsWindowDays ?? this.analyticsWindowDays,
+  );
+  AppSettingsEntry copyWithCompanion(AppSettingsEntriesCompanion data) {
+    return AppSettingsEntry(
+      id: data.id.present ? data.id.value : this.id,
+      useMockPrediction: data.useMockPrediction.present
+          ? data.useMockPrediction.value
+          : this.useMockPrediction,
+      predictionBaseUrl: data.predictionBaseUrl.present
+          ? data.predictionBaseUrl.value
+          : this.predictionBaseUrl,
+      requestTimeoutSeconds: data.requestTimeoutSeconds.present
+          ? data.requestTimeoutSeconds.value
+          : this.requestTimeoutSeconds,
+      saveScanHistory: data.saveScanHistory.present
+          ? data.saveScanHistory.value
+          : this.saveScanHistory,
+      analyticsWindowDays: data.analyticsWindowDays.present
+          ? data.analyticsWindowDays.value
+          : this.analyticsWindowDays,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AppSettingsEntry(')
+          ..write('id: $id, ')
+          ..write('useMockPrediction: $useMockPrediction, ')
+          ..write('predictionBaseUrl: $predictionBaseUrl, ')
+          ..write('requestTimeoutSeconds: $requestTimeoutSeconds, ')
+          ..write('saveScanHistory: $saveScanHistory, ')
+          ..write('analyticsWindowDays: $analyticsWindowDays')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    useMockPrediction,
+    predictionBaseUrl,
+    requestTimeoutSeconds,
+    saveScanHistory,
+    analyticsWindowDays,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AppSettingsEntry &&
+          other.id == this.id &&
+          other.useMockPrediction == this.useMockPrediction &&
+          other.predictionBaseUrl == this.predictionBaseUrl &&
+          other.requestTimeoutSeconds == this.requestTimeoutSeconds &&
+          other.saveScanHistory == this.saveScanHistory &&
+          other.analyticsWindowDays == this.analyticsWindowDays);
+}
+
+class AppSettingsEntriesCompanion extends UpdateCompanion<AppSettingsEntry> {
+  final Value<int> id;
+  final Value<bool> useMockPrediction;
+  final Value<String> predictionBaseUrl;
+  final Value<int> requestTimeoutSeconds;
+  final Value<bool> saveScanHistory;
+  final Value<int> analyticsWindowDays;
+  const AppSettingsEntriesCompanion({
+    this.id = const Value.absent(),
+    this.useMockPrediction = const Value.absent(),
+    this.predictionBaseUrl = const Value.absent(),
+    this.requestTimeoutSeconds = const Value.absent(),
+    this.saveScanHistory = const Value.absent(),
+    this.analyticsWindowDays = const Value.absent(),
+  });
+  AppSettingsEntriesCompanion.insert({
+    this.id = const Value.absent(),
+    required bool useMockPrediction,
+    required String predictionBaseUrl,
+    required int requestTimeoutSeconds,
+    required bool saveScanHistory,
+    required int analyticsWindowDays,
+  }) : useMockPrediction = Value(useMockPrediction),
+       predictionBaseUrl = Value(predictionBaseUrl),
+       requestTimeoutSeconds = Value(requestTimeoutSeconds),
+       saveScanHistory = Value(saveScanHistory),
+       analyticsWindowDays = Value(analyticsWindowDays);
+  static Insertable<AppSettingsEntry> custom({
+    Expression<int>? id,
+    Expression<bool>? useMockPrediction,
+    Expression<String>? predictionBaseUrl,
+    Expression<int>? requestTimeoutSeconds,
+    Expression<bool>? saveScanHistory,
+    Expression<int>? analyticsWindowDays,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (useMockPrediction != null) 'use_mock_prediction': useMockPrediction,
+      if (predictionBaseUrl != null) 'prediction_base_url': predictionBaseUrl,
+      if (requestTimeoutSeconds != null)
+        'request_timeout_seconds': requestTimeoutSeconds,
+      if (saveScanHistory != null) 'save_scan_history': saveScanHistory,
+      if (analyticsWindowDays != null)
+        'analytics_window_days': analyticsWindowDays,
+    });
+  }
+
+  AppSettingsEntriesCompanion copyWith({
+    Value<int>? id,
+    Value<bool>? useMockPrediction,
+    Value<String>? predictionBaseUrl,
+    Value<int>? requestTimeoutSeconds,
+    Value<bool>? saveScanHistory,
+    Value<int>? analyticsWindowDays,
+  }) {
+    return AppSettingsEntriesCompanion(
+      id: id ?? this.id,
+      useMockPrediction: useMockPrediction ?? this.useMockPrediction,
+      predictionBaseUrl: predictionBaseUrl ?? this.predictionBaseUrl,
+      requestTimeoutSeconds:
+          requestTimeoutSeconds ?? this.requestTimeoutSeconds,
+      saveScanHistory: saveScanHistory ?? this.saveScanHistory,
+      analyticsWindowDays: analyticsWindowDays ?? this.analyticsWindowDays,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (useMockPrediction.present) {
+      map['use_mock_prediction'] = Variable<bool>(useMockPrediction.value);
+    }
+    if (predictionBaseUrl.present) {
+      map['prediction_base_url'] = Variable<String>(predictionBaseUrl.value);
+    }
+    if (requestTimeoutSeconds.present) {
+      map['request_timeout_seconds'] = Variable<int>(
+        requestTimeoutSeconds.value,
+      );
+    }
+    if (saveScanHistory.present) {
+      map['save_scan_history'] = Variable<bool>(saveScanHistory.value);
+    }
+    if (analyticsWindowDays.present) {
+      map['analytics_window_days'] = Variable<int>(analyticsWindowDays.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AppSettingsEntriesCompanion(')
+          ..write('id: $id, ')
+          ..write('useMockPrediction: $useMockPrediction, ')
+          ..write('predictionBaseUrl: $predictionBaseUrl, ')
+          ..write('requestTimeoutSeconds: $requestTimeoutSeconds, ')
+          ..write('saveScanHistory: $saveScanHistory, ')
+          ..write('analyticsWindowDays: $analyticsWindowDays')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $ScanHistoryEntriesTable scanHistoryEntries =
       $ScanHistoryEntriesTable(this);
+  late final $AppSettingsEntriesTable appSettingsEntries =
+      $AppSettingsEntriesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [scanHistoryEntries];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    scanHistoryEntries,
+    appSettingsEntries,
+  ];
 }
 
 typedef $$ScanHistoryEntriesTableCreateCompanionBuilder =
@@ -1011,10 +1458,248 @@ typedef $$ScanHistoryEntriesTableProcessedTableManager =
       ScanHistoryEntry,
       PrefetchHooks Function()
     >;
+typedef $$AppSettingsEntriesTableCreateCompanionBuilder =
+    AppSettingsEntriesCompanion Function({
+      Value<int> id,
+      required bool useMockPrediction,
+      required String predictionBaseUrl,
+      required int requestTimeoutSeconds,
+      required bool saveScanHistory,
+      required int analyticsWindowDays,
+    });
+typedef $$AppSettingsEntriesTableUpdateCompanionBuilder =
+    AppSettingsEntriesCompanion Function({
+      Value<int> id,
+      Value<bool> useMockPrediction,
+      Value<String> predictionBaseUrl,
+      Value<int> requestTimeoutSeconds,
+      Value<bool> saveScanHistory,
+      Value<int> analyticsWindowDays,
+    });
+
+class $$AppSettingsEntriesTableFilterComposer
+    extends Composer<_$AppDatabase, $AppSettingsEntriesTable> {
+  $$AppSettingsEntriesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get useMockPrediction => $composableBuilder(
+    column: $table.useMockPrediction,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get predictionBaseUrl => $composableBuilder(
+    column: $table.predictionBaseUrl,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get requestTimeoutSeconds => $composableBuilder(
+    column: $table.requestTimeoutSeconds,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get saveScanHistory => $composableBuilder(
+    column: $table.saveScanHistory,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get analyticsWindowDays => $composableBuilder(
+    column: $table.analyticsWindowDays,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$AppSettingsEntriesTableOrderingComposer
+    extends Composer<_$AppDatabase, $AppSettingsEntriesTable> {
+  $$AppSettingsEntriesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get useMockPrediction => $composableBuilder(
+    column: $table.useMockPrediction,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get predictionBaseUrl => $composableBuilder(
+    column: $table.predictionBaseUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get requestTimeoutSeconds => $composableBuilder(
+    column: $table.requestTimeoutSeconds,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get saveScanHistory => $composableBuilder(
+    column: $table.saveScanHistory,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get analyticsWindowDays => $composableBuilder(
+    column: $table.analyticsWindowDays,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$AppSettingsEntriesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AppSettingsEntriesTable> {
+  $$AppSettingsEntriesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<bool> get useMockPrediction => $composableBuilder(
+    column: $table.useMockPrediction,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get predictionBaseUrl => $composableBuilder(
+    column: $table.predictionBaseUrl,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get requestTimeoutSeconds => $composableBuilder(
+    column: $table.requestTimeoutSeconds,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get saveScanHistory => $composableBuilder(
+    column: $table.saveScanHistory,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get analyticsWindowDays => $composableBuilder(
+    column: $table.analyticsWindowDays,
+    builder: (column) => column,
+  );
+}
+
+class $$AppSettingsEntriesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AppSettingsEntriesTable,
+          AppSettingsEntry,
+          $$AppSettingsEntriesTableFilterComposer,
+          $$AppSettingsEntriesTableOrderingComposer,
+          $$AppSettingsEntriesTableAnnotationComposer,
+          $$AppSettingsEntriesTableCreateCompanionBuilder,
+          $$AppSettingsEntriesTableUpdateCompanionBuilder,
+          (
+            AppSettingsEntry,
+            BaseReferences<
+              _$AppDatabase,
+              $AppSettingsEntriesTable,
+              AppSettingsEntry
+            >,
+          ),
+          AppSettingsEntry,
+          PrefetchHooks Function()
+        > {
+  $$AppSettingsEntriesTableTableManager(
+    _$AppDatabase db,
+    $AppSettingsEntriesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AppSettingsEntriesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AppSettingsEntriesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AppSettingsEntriesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<bool> useMockPrediction = const Value.absent(),
+                Value<String> predictionBaseUrl = const Value.absent(),
+                Value<int> requestTimeoutSeconds = const Value.absent(),
+                Value<bool> saveScanHistory = const Value.absent(),
+                Value<int> analyticsWindowDays = const Value.absent(),
+              }) => AppSettingsEntriesCompanion(
+                id: id,
+                useMockPrediction: useMockPrediction,
+                predictionBaseUrl: predictionBaseUrl,
+                requestTimeoutSeconds: requestTimeoutSeconds,
+                saveScanHistory: saveScanHistory,
+                analyticsWindowDays: analyticsWindowDays,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required bool useMockPrediction,
+                required String predictionBaseUrl,
+                required int requestTimeoutSeconds,
+                required bool saveScanHistory,
+                required int analyticsWindowDays,
+              }) => AppSettingsEntriesCompanion.insert(
+                id: id,
+                useMockPrediction: useMockPrediction,
+                predictionBaseUrl: predictionBaseUrl,
+                requestTimeoutSeconds: requestTimeoutSeconds,
+                saveScanHistory: saveScanHistory,
+                analyticsWindowDays: analyticsWindowDays,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$AppSettingsEntriesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AppSettingsEntriesTable,
+      AppSettingsEntry,
+      $$AppSettingsEntriesTableFilterComposer,
+      $$AppSettingsEntriesTableOrderingComposer,
+      $$AppSettingsEntriesTableAnnotationComposer,
+      $$AppSettingsEntriesTableCreateCompanionBuilder,
+      $$AppSettingsEntriesTableUpdateCompanionBuilder,
+      (
+        AppSettingsEntry,
+        BaseReferences<
+          _$AppDatabase,
+          $AppSettingsEntriesTable,
+          AppSettingsEntry
+        >,
+      ),
+      AppSettingsEntry,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
   $$ScanHistoryEntriesTableTableManager get scanHistoryEntries =>
       $$ScanHistoryEntriesTableTableManager(_db, _db.scanHistoryEntries);
+  $$AppSettingsEntriesTableTableManager get appSettingsEntries =>
+      $$AppSettingsEntriesTableTableManager(_db, _db.appSettingsEntries);
 }

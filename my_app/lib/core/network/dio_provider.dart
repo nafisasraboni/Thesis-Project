@@ -1,15 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'api_config.dart';
+import '../../shared/providers/settings_providers.dart';
 
 final dioProvider = Provider<Dio>((ref) {
+  final settings = ref.watch(currentAppSettingsProvider);
+  final timeout = Duration(seconds: settings.requestTimeoutSeconds);
+
   return Dio(
     BaseOptions(
-      baseUrl: ApiConfig.baseUrl,
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 30),
-      sendTimeout: const Duration(seconds: 30),
+      baseUrl: settings.predictionBaseUrl,
+      connectTimeout: timeout,
+      receiveTimeout: timeout,
+      sendTimeout: timeout,
       headers: const <String, String>{'Accept': 'application/json'},
     ),
   );

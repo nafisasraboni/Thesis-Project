@@ -123,6 +123,9 @@ abstract final class AppRouter {
   static void goToHistory(BuildContext context) =>
       context.go(RouteNames.historyPath);
 
+  static void goToAnalytics(BuildContext context) =>
+      context.go(RouteNames.analyticsPath);
+
   static Future<void> openScanResult(
     BuildContext context,
     ScanReportEntity report,
