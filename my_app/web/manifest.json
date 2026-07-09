@@ -1,11 +1,11 @@
 {
-    "name": "my_app",
-    "short_name": "my_app",
+    "name": "MalGuard",
+    "short_name": "MalGuard",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "MalGuard malware classification and detection system.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -4,6 +4,6 @@ import 'package:my_app/core/constants/app_strings.dart';
 
 void main() {
   test('app title matches thesis project branding', () {
-    expect(AppStrings.appTitle, 'Malware Classification and Detection System');
+    expect(AppStrings.appTitle, 'MalGuard');
   });
 }

@@ -1,6 +1,6 @@
 /// Centralized strings used across the application shell.
 abstract final class AppStrings {
-  static const String appTitle = 'Malware Classification and Detection System';
+  static const String appTitle = 'MalGuard';
   static const String appTagline =
       'Enterprise-grade malware screening powered by deep learning.';
 

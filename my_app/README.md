@@ -1,6 +1,8 @@
-# Malware Classification and Detection System
+# MalGuard
 
-A production-structured Flutter application built for a university thesis project. The app allows users to upload files or images, run a malware detection workflow, display classification results, store scan history locally, and visualize operational analytics. The UI is already prepared to connect to a trained CNN + Bi-LSTM backend without changing the presentation layer.
+MalGuard is a production-structured Flutter application built for a university thesis project.
+
+The app allows users to upload files or images, run a malware detection workflow, display classification results, store scan history locally, and visualize operational analytics. The UI is already prepared to connect to a trained CNN + Bi-LSTM backend without changing the presentation layer.
 
 ## Project Goal
 
