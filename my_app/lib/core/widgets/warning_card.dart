@@ -22,7 +22,6 @@ class WarningCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CyberCard(
-      borderColor: classification.color.withValues(alpha: 0.45),
       backgroundColor: classification.color.withValues(alpha: 0.08),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

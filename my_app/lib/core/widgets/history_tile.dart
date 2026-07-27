@@ -50,11 +50,18 @@ class HistoryTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(fileName, style: AppTextStyles.subheading),
+                Text(
+                  fileName,
+                  style: AppTextStyles.subheading,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
                 const SizedBox(height: AppSizes.xxs),
                 Text(
                   '$extension${fileSize == null ? '' : ' • $fileSize'} • $scanDate',
                   style: AppTextStyles.bodySecondary,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ],
             ),
@@ -76,6 +83,8 @@ class HistoryTile extends StatelessWidget {
                   style: AppTextStyles.label.copyWith(
                     color: classification.color,
                   ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
               const SizedBox(height: AppSizes.xs),

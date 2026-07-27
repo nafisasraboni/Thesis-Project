@@ -24,7 +24,6 @@ class ResultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CyberCard(
-      borderColor: classification.color.withValues(alpha: 0.35),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

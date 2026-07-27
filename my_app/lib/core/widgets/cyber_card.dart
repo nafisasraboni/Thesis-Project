@@ -11,14 +11,12 @@ class CyberCard extends StatelessWidget {
     super.key,
     this.padding = AppSizes.cardPadding,
     this.backgroundColor,
-    this.borderColor,
     this.onTap,
   });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
   final Color? backgroundColor;
-  final Color? borderColor;
   final VoidCallback? onTap;
 
   @override
@@ -28,7 +26,6 @@ class CyberCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor ?? AppColors.surface,
         borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-        border: Border.all(color: borderColor ?? AppColors.divider),
       ),
       child: child,
     );

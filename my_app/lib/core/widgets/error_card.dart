@@ -24,7 +24,6 @@ class ErrorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CyberCard(
-      borderColor: AppColors.danger.withValues(alpha: 0.35),
       backgroundColor: AppColors.danger.withValues(alpha: 0.08),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
