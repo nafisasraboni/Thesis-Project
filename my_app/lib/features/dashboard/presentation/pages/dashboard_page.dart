@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_sizes.dart';
+import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_formatters.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../history/domain/entities/scan_history_summary_entity.dart';
@@ -11,7 +12,6 @@ import '../providers/dashboard_summary_provider.dart';
 
 /// Primary dashboard for security posture and scan activity.
 class DashboardPage extends ConsumerWidget {
-  /// Creates the dashboard page.
   const DashboardPage({super.key});
 
   @override
@@ -27,7 +27,7 @@ class DashboardPage extends ConsumerWidget {
             SectionHeader(
               title: 'Security Overview',
               subtitle:
-                  'Operational snapshot of the malware detection environment.',
+                  'Operational snapshot of the malware detection environment',
               trailing: PrimaryButton(
                 label: 'Quick Scan',
                 icon: Icons.radar_outlined,
@@ -59,7 +59,7 @@ class DashboardPage extends ConsumerWidget {
             SectionHeader(
               title: 'Recent Scan History',
               subtitle:
-                  'Persisted file and image assessments are stored in the local database automatically.',
+                  'Persisted file and image assessments stored in the local database',
               trailing: SecondaryButton(
                 label: 'View All',
                 icon: Icons.chevron_right_rounded,
@@ -69,12 +69,12 @@ class DashboardPage extends ConsumerWidget {
             const SizedBox(height: AppSizes.md),
             recentHistoryAsync.when(
               data: (records) => records.isEmpty
-                  ? const CyberCard(
+                  ? const AppCard(
                       child: EmptyState(
                         icon: Icons.history_toggle_off_outlined,
                         title: 'No scan records available',
                         message:
-                            'Run a file or image scan to populate the operational history panel.',
+                            'Run a file or image scan to populate the operational history panel',
                       ),
                     )
                   : Column(
@@ -126,7 +126,7 @@ class _DashboardStatistics extends StatelessWidget {
   Widget build(BuildContext context) {
     final statistics = <_DashboardStat>[
       _DashboardStat(
-        title: 'Total Scanned Files',
+        title: 'Total Scanned',
         value: '${summary.totalScannedFiles}',
         caption: 'Persisted local scan records',
         icon: Icons.insert_drive_file_outlined,
@@ -140,7 +140,7 @@ class _DashboardStatistics extends StatelessWidget {
         color: AppColors.success,
       ),
       _DashboardStat(
-        title: 'Suspicious Files',
+        title: 'Suspicious',
         value: '${summary.suspiciousFiles}',
         caption: 'Manual review recommended',
         icon: Icons.warning_amber_rounded,
@@ -197,7 +197,7 @@ class _ThreatOverview extends StatelessWidget {
         SectionHeader(
           title: 'Threat Overview',
           subtitle:
-              'Distribution panels summarize persisted model classifications.',
+              'Distribution panels summarize persisted model classifications',
           trailing: SecondaryButton(
             label: 'Open Analytics',
             icon: Icons.analytics_outlined,
@@ -205,7 +205,7 @@ class _ThreatOverview extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSizes.md),
-        CyberCard(
+        AppCard(
           child: Column(
             children: [
               _StatusBar(
@@ -251,16 +251,16 @@ class _LastScanSection extends StatelessWidget {
         const SectionHeader(
           title: 'Last Scan',
           subtitle:
-              'The latest persisted detection summary is surfaced here for quick review.',
+              'The latest persisted detection summary surfaced for quick review',
         ),
         const SizedBox(height: AppSizes.md),
         if (lastScan == null)
-          const CyberCard(
+          const AppCard(
             child: EmptyState(
               icon: Icons.search_off_rounded,
               title: 'No completed scans yet',
               message:
-                  'The result summary will appear here after the first successful scan.',
+                  'The result summary will appear here after the first successful scan',
             ),
           )
         else
@@ -281,7 +281,7 @@ class _DashboardLoadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CyberCard(
+    return const AppCard(
       child: SizedBox(
         height: 120,
         child: Center(child: CircularProgressIndicator()),
@@ -325,12 +325,19 @@ class _StatusBar extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: Text(title)),
-            Text(value),
+            Expanded(child: Text(title, style: AppTextStyles.body)),
+            Text(value, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),
           ],
         ),
         const SizedBox(height: AppSizes.xs),
-        LinearProgressIndicator(value: progress, color: color, minHeight: 8),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+          child: LinearProgressIndicator(
+            value: progress,
+            color: color,
+            minHeight: 8,
+          ),
+        ),
       ],
     );
   }

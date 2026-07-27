@@ -12,7 +12,6 @@ import '../widgets/analytics_trend_chart.dart';
 
 /// Analytics page for operational metrics and charting surfaces.
 class AnalyticsPage extends ConsumerWidget {
-  /// Creates the analytics page.
   const AnalyticsPage({super.key});
 
   @override
@@ -28,8 +27,8 @@ class AnalyticsPage extends ConsumerWidget {
               SectionHeader(
                 title: 'Detection Analytics',
                 subtitle:
-                    'Live metrics, scan-volume trends, and threat ratios derived from the local history store.',
-                trailing: CyberCard(
+                    'Live metrics, scan-volume trends, and threat ratios derived from the local history store',
+                trailing: AppCard(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppSizes.md,
                     vertical: AppSizes.sm,
@@ -37,7 +36,7 @@ class AnalyticsPage extends ConsumerWidget {
                   backgroundColor: AppColors.surfaceElevated,
                   child: Text(
                     'Window: ${analytics.windowDays} days',
-                    style: AppTextStyles.label.copyWith(
+                    style: AppTextStyles.caption.copyWith(
                       color: AppColors.textPrimary,
                     ),
                   ),
@@ -48,10 +47,10 @@ class AnalyticsPage extends ConsumerWidget {
                 builder: (context, constraints) {
                   final itemWidth =
                       constraints.maxWidth >= AppSizes.desktopBreakpoint
-                      ? (constraints.maxWidth - (AppSizes.md * 3)) / 4
-                      : constraints.maxWidth >= AppSizes.tabletBreakpoint
-                      ? (constraints.maxWidth - AppSizes.md) / 2
-                      : constraints.maxWidth;
+                          ? (constraints.maxWidth - (AppSizes.md * 3)) / 4
+                          : constraints.maxWidth >= AppSizes.tabletBreakpoint
+                              ? (constraints.maxWidth - AppSizes.md) / 2
+                              : constraints.maxWidth;
 
                   return Wrap(
                     spacing: AppSizes.md,
@@ -107,8 +106,8 @@ class AnalyticsPage extends ConsumerWidget {
                 builder: (context, constraints) {
                   final panelWidth =
                       constraints.maxWidth >= AppSizes.tabletBreakpoint
-                      ? (constraints.maxWidth - AppSizes.md) / 2
-                      : constraints.maxWidth;
+                          ? (constraints.maxWidth - AppSizes.md) / 2
+                          : constraints.maxWidth;
 
                   return Wrap(
                     spacing: AppSizes.md,
@@ -138,8 +137,8 @@ class AnalyticsPage extends ConsumerWidget {
                 builder: (context, constraints) {
                   final panelWidth =
                       constraints.maxWidth >= AppSizes.tabletBreakpoint
-                      ? (constraints.maxWidth - AppSizes.md) / 2
-                      : constraints.maxWidth;
+                          ? (constraints.maxWidth - AppSizes.md) / 2
+                          : constraints.maxWidth;
 
                   return Wrap(
                     spacing: AppSizes.md,
@@ -153,7 +152,7 @@ class AnalyticsPage extends ConsumerWidget {
                       ),
                       SizedBox(
                         width: panelWidth,
-                        child: CyberCard(
+                        child: AppCard(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -163,7 +162,7 @@ class AnalyticsPage extends ConsumerWidget {
                               ),
                               const SizedBox(height: AppSizes.xs),
                               const Text(
-                                'Ratios are calculated directly from persisted classification outcomes.',
+                                'Ratios are calculated directly from persisted classification outcomes',
                                 style: AppTextStyles.bodySecondary,
                               ),
                               const SizedBox(height: AppSizes.lg),
@@ -194,7 +193,7 @@ class AnalyticsPage extends ConsumerWidget {
               ),
             ],
           ),
-          loading: () => const CyberCard(
+          loading: () => const AppCard(
             child: SizedBox(
               height: 180,
               child: Center(child: CircularProgressIndicator()),
@@ -227,8 +226,11 @@ class _RatioRow extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: Text(label)),
-            Text('${(value * 100).toStringAsFixed(1)}%'),
+            Expanded(child: Text(label, style: AppTextStyles.body)),
+            Text(
+              '${(value * 100).toStringAsFixed(1)}%',
+              style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+            ),
           ],
         ),
         const SizedBox(height: AppSizes.xs),

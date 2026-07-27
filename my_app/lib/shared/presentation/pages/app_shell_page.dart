@@ -3,11 +3,11 @@ import 'package:go_router/go_router.dart';
 
 import '../../../config/routes/app_router.dart';
 import '../../../core/constants/app_strings.dart';
+import '../../../core/theme/app_sizes.dart';
 import '../../../core/widgets/widgets.dart';
 
 /// Main shell that hosts primary feature branches and bottom navigation.
 class AppShellPage extends StatelessWidget {
-  /// Creates the main application shell.
   const AppShellPage({required this.navigationShell, super.key});
 
   final StatefulNavigationShell navigationShell;
@@ -15,19 +15,30 @@ class AppShellPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CyberAppBar(
+      appBar: AppAppBar(
         title: _titles[navigationShell.currentIndex],
         subtitle: _subtitles[navigationShell.currentIndex],
         actions: [
-          IconButton(
-            tooltip: AppStrings.aboutTitle,
-            onPressed: () => AppRouter.openAbout(context),
-            icon: const Icon(Icons.info_outline),
+          Semantics(
+            label: AppStrings.aboutTitle,
+            child: IconButton(
+              tooltip: AppStrings.aboutTitle,
+              onPressed: () => AppRouter.openAbout(context),
+              icon: const Icon(Icons.info_outline, size: AppSizes.iconMd),
+              splashRadius: 22,
+            ),
           ),
-          IconButton(
-            tooltip: AppStrings.authenticationTitle,
-            onPressed: () => AppRouter.openAuthentication(context),
-            icon: const Icon(Icons.admin_panel_settings_outlined),
+          Semantics(
+            label: AppStrings.authenticationTitle,
+            child: IconButton(
+              tooltip: AppStrings.authenticationTitle,
+              onPressed: () => AppRouter.openAuthentication(context),
+              icon: const Icon(
+                Icons.admin_panel_settings_outlined,
+                size: AppSizes.iconMd,
+              ),
+              splashRadius: 22,
+            ),
           ),
         ],
       ),
@@ -81,9 +92,9 @@ const _titles = <String>[
 ];
 
 const _subtitles = <String>[
-  'Real-time security posture and scan activity.',
-  'Upload workspace for file and image analysis.',
-  'Persisted scan records and exports.',
-  'Detection ratios and operational insights.',
-  'Workspace controls and project access.',
+  'Real-time security posture and scan activity',
+  'Upload workspace for file and image analysis',
+  'Persisted scan records and exports',
+  'Detection ratios and operational insights',
+  'Workspace controls and project access',
 ];

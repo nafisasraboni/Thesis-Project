@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_colors.dart';
 import '../theme/app_sizes.dart';
+import '../theme/app_text_styles.dart';
 
-/// Primary call-to-action button aligned to the application theme.
+/// Premium primary call-to-action button.
 class PrimaryButton extends StatelessWidget {
-  /// Creates a primary button.
   const PrimaryButton({
     required this.label,
     required this.onPressed,
@@ -24,9 +25,12 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final child = isLoading
         ? const SizedBox(
-            width: AppSizes.iconSm,
-            height: AppSizes.iconSm,
-            child: CircularProgressIndicator(strokeWidth: 2.4),
+            width: AppSizes.iconMd,
+            height: AppSizes.iconMd,
+            child: CircularProgressIndicator(
+              strokeWidth: 2.5,
+              color: AppColors.textPrimary,
+            ),
           )
         : Row(
             mainAxisSize: MainAxisSize.min,
@@ -35,15 +39,20 @@ class PrimaryButton extends StatelessWidget {
                 Icon(icon, size: AppSizes.iconSm),
                 const SizedBox(width: AppSizes.xs),
               ],
-              Text(label),
+              Text(label, style: AppTextStyles.button),
             ],
           );
 
-    return SizedBox(
-      width: isExpanded ? double.infinity : null,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
-        child: child,
+    return Semantics(
+      button: true,
+      label: label,
+      child: SizedBox(
+        width: isExpanded ? double.infinity : null,
+        height: AppSizes.minTapTarget,
+        child: ElevatedButton(
+          onPressed: isLoading ? null : onPressed,
+          child: child,
+        ),
       ),
     );
   }

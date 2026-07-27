@@ -5,9 +5,8 @@ import '../theme/app_sizes.dart';
 import '../theme/app_text_styles.dart';
 import 'cyber_card.dart';
 
-/// Compact statistics card for dashboard and analytics views.
+/// Premium compact statistics card for dashboard and analytics views.
 class StatCard extends StatelessWidget {
-  /// Creates a metric card.
   const StatCard({
     required this.title,
     required this.value,
@@ -25,7 +24,7 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CyberCard(
+    return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -34,13 +33,13 @@ class StatCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(AppSizes.sm),
                 decoration: BoxDecoration(
-                  color: highlightColor.withValues(alpha: 0.16),
+                  color: highlightColor.withAlpha(40),
                   borderRadius: BorderRadius.circular(AppSizes.radiusSm),
                 ),
-                child: Icon(icon, color: highlightColor),
+                child: Icon(icon, color: highlightColor, size: AppSizes.iconMd),
               ),
               const Spacer(),
-              Text(title, style: AppTextStyles.label),
+              Text(title, style: AppTextStyles.caption),
             ],
           ),
           const SizedBox(height: AppSizes.lg),

@@ -5,9 +5,8 @@ import '../theme/app_sizes.dart';
 import '../theme/app_text_styles.dart';
 import 'cyber_card.dart';
 
-/// Interactive card for selecting a file or image input source.
+/// Premium interactive card for selecting a file or image input source.
 class UploadCard extends StatelessWidget {
-  /// Creates an upload card.
   const UploadCard({
     required this.title,
     required this.description,
@@ -25,44 +24,48 @@ class UploadCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CyberCard(
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(AppSizes.md),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.16),
-              borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+    return Semantics(
+      button: true,
+      label: '$title. $description',
+      child: AppCard(
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(AppSizes.md),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withAlpha(30),
+                borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+              ),
+              child: Icon(icon, color: AppColors.primary, size: AppSizes.iconLg),
             ),
-            child: Icon(icon, color: AppColors.primary, size: AppSizes.iconLg),
-          ),
-          const SizedBox(height: AppSizes.lg),
-          Text(title, style: AppTextStyles.subheading),
-          const SizedBox(height: AppSizes.xs),
-          Text(description, style: AppTextStyles.bodySecondary),
-          const SizedBox(height: AppSizes.md),
-          Wrap(
-            spacing: AppSizes.xs,
-            runSpacing: AppSizes.xs,
-            children: supportedFormats
-                .map(
-                  (format) => Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSizes.sm,
-                      vertical: AppSizes.xs,
+            const SizedBox(height: AppSizes.lg),
+            Text(title, style: AppTextStyles.subheading),
+            const SizedBox(height: AppSizes.xs),
+            Text(description, style: AppTextStyles.bodySecondary),
+            const SizedBox(height: AppSizes.md),
+            Wrap(
+              spacing: AppSizes.xs,
+              runSpacing: AppSizes.xs,
+              children: supportedFormats
+                  .map(
+                    (format) => Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSizes.sm,
+                        vertical: AppSizes.xxs,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.surfaceSoft,
+                        borderRadius: BorderRadius.circular(AppSizes.radiusXs),
+                      ),
+                      child: Text(format, style: AppTextStyles.label),
                     ),
-                    decoration: BoxDecoration(
-                      color: AppColors.surfaceSoft,
-                      borderRadius: BorderRadius.circular(AppSizes.radiusSm),
-                    ),
-                    child: Text(format, style: AppTextStyles.label),
-                  ),
-                )
-                .toList(),
-          ),
-        ],
+                  )
+                  .toList(),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_sizes.dart';
 
-/// Secondary action button for low-emphasis interactions.
+/// Premium secondary action button for lower-emphasis interactions.
 class SecondaryButton extends StatelessWidget {
-  /// Creates a secondary button.
   const SecondaryButton({
     required this.label,
     required this.onPressed,
@@ -20,22 +19,26 @@ class SecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: isExpanded ? double.infinity : null,
-      child: OutlinedButton(
-        onPressed: onPressed,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (icon != null) ...[
-              Icon(icon, size: AppSizes.iconSm),
-              const SizedBox(width: AppSizes.xs),
+    return Semantics(
+      button: true,
+      label: label,
+      child: SizedBox(
+        width: isExpanded ? double.infinity : null,
+        height: AppSizes.minTapTarget,
+        child: OutlinedButton(
+          onPressed: onPressed,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null) ...[
+                Icon(icon, size: AppSizes.iconSm),
+                SizedBox(width: AppSizes.xs),
+              ],
+              Flexible(
+                child: Text(label, overflow: TextOverflow.ellipsis),
+              ),
             ],
-             Text(
-              label,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+          ),
         ),
       ),
     );

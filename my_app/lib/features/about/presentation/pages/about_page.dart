@@ -7,15 +7,14 @@ import '../widgets/about_info_card.dart';
 
 /// About page describing the thesis product and technical direction.
 class AboutPage extends StatelessWidget {
-  /// Creates the about page.
   const AboutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CyberAppBar(
+      appBar: const AppAppBar(
         title: 'About Project',
-        subtitle: 'Thesis scope, architecture, and AI integration plan.',
+        subtitle: 'Thesis scope, architecture, and AI integration plan',
       ),
       body: SingleChildScrollView(
         child: ResponsiveContainer(
@@ -25,15 +24,15 @@ class AboutPage extends StatelessWidget {
               const SectionHeader(
                 title: AppStrings.appTitle,
                 subtitle:
-                    'A production-grade Flutter client for malware classification and detection built for thesis defense readiness.',
+                    'A production-grade Flutter client for malware classification and detection built for thesis defense readiness',
               ),
               const SizedBox(height: AppSizes.xl),
               LayoutBuilder(
                 builder: (context, constraints) {
                   final cardWidth =
                       constraints.maxWidth >= AppSizes.tabletBreakpoint
-                      ? (constraints.maxWidth - AppSizes.md) / 2
-                      : constraints.maxWidth;
+                          ? (constraints.maxWidth - AppSizes.md) / 2
+                          : constraints.maxWidth;
 
                   return Wrap(
                     spacing: AppSizes.md,
@@ -47,7 +46,7 @@ class AboutPage extends StatelessWidget {
                           description:
                               'This system analyzes uploaded files and images, sends them through a malware classification pipeline, and presents a professional result workflow for safe, suspicious, and malware detections.',
                           footer:
-                              'Designed to demonstrate commercial-grade architecture instead of a student CRUD pattern.',
+                              'Designed to demonstrate commercial-grade architecture instead of a student CRUD pattern',
                         ),
                       ),
                       SizedBox(
@@ -58,7 +57,7 @@ class AboutPage extends StatelessWidget {
                           description:
                               'The scanner is already separated behind use cases, repositories, remote data sources, and services. Your trained CNN + Bi-LSTM backend can replace the mock service without changing the UI.',
                           footer:
-                              'HTTP contract: POST /api/predict using multipart/form-data.',
+                              'HTTP contract: POST /api/predict using multipart/form-data',
                         ),
                       ),
                     ],
@@ -72,7 +71,7 @@ class AboutPage extends StatelessWidget {
                 description:
                     'The app uses Clean Architecture, feature-first organization, MVVM-style presentation flow, Riverpod state management, centralized GoRouter navigation, repository pattern, and Drift-backed local persistence.',
                 footer:
-                    'Business logic stays outside widgets so the product remains scalable and maintainable.',
+                    'Business logic stays outside widgets so the product remains scalable and maintainable',
               ),
               const SizedBox(height: AppSizes.md),
               const AboutInfoCard(
@@ -81,7 +80,7 @@ class AboutPage extends StatelessWidget {
                 description:
                     'The product includes a dashboard, scanner, history, analytics, configurable runtime settings, responsive layouts, structured result states, and a backend-agnostic prediction boundary suitable for live demonstrations.',
                 footer:
-                    'The current implementation is ready for a dummy backend now and the trained model later.',
+                    'The current implementation is ready for a dummy backend now and the trained model later',
               ),
             ],
           ),

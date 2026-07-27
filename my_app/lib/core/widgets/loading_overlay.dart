@@ -4,9 +4,8 @@ import '../theme/app_colors.dart';
 import '../theme/app_sizes.dart';
 import '../theme/app_text_styles.dart';
 
-/// Stacks a loading indicator above existing content.
+/// Premium loading indicator that stacks above existing content.
 class LoadingOverlay extends StatelessWidget {
-  /// Creates a loading overlay wrapper.
   const LoadingOverlay({
     required this.child,
     super.key,
@@ -31,7 +30,9 @@ class LoadingOverlay extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const CircularProgressIndicator(),
+                    const CircularProgressIndicator(
+                      color: AppColors.textPrimary,
+                    ),
                     if (message != null) ...[
                       const SizedBox(height: AppSizes.md),
                       Text(message!, style: AppTextStyles.body),

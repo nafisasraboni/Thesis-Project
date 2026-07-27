@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../theme/app_colors.dart';
 import '../theme/app_sizes.dart';
 import '../theme/app_text_styles.dart';
 
-/// Application dialog helper for alerts and confirmations.
+/// Premium application dialog helper for alerts and confirmations.
 abstract final class CustomDialog {
-  /// Shows a themed dialog.
   static Future<T?> showAppDialog<T>({
     required BuildContext context,
     required String title,
@@ -18,7 +16,12 @@ abstract final class CustomDialog {
       context: context,
       builder: (context) {
         return AlertDialog(
-          contentPadding: const EdgeInsets.all(AppSizes.xl),
+          contentPadding: const EdgeInsets.fromLTRB(
+            AppSizes.xl,
+            AppSizes.md,
+            AppSizes.xl,
+            AppSizes.xl,
+          ),
           titlePadding: const EdgeInsets.fromLTRB(
             AppSizes.xl,
             AppSizes.xl,
@@ -32,17 +35,19 @@ abstract final class CustomDialog {
             ],
           ),
           content: Text(message, style: AppTextStyles.bodySecondary),
-          actions:
-              actions ??
+          actions: actions ??
               [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: const Text(
-                    'Close',
-                    style: TextStyle(color: AppColors.textPrimary),
-                  ),
+                  child: const Text('Close'),
                 ),
               ],
+          actionsPadding: const EdgeInsets.fromLTRB(
+            AppSizes.md,
+            0,
+            AppSizes.md,
+            AppSizes.sm,
+          ),
         );
       },
     );

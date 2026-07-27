@@ -8,7 +8,6 @@ import '../../domain/entities/scan_volume_bucket_entity.dart';
 
 /// Bar chart for scan activity across the configured analytics window.
 class AnalyticsTrendChart extends StatelessWidget {
-  /// Creates a trend chart card.
   const AnalyticsTrendChart({
     required this.windowDays,
     required this.buckets,
@@ -27,7 +26,7 @@ class AnalyticsTrendChart extends StatelessWidget {
               .reduce((left, right) => left > right ? left : right)
               .clamp(1, 999999);
 
-    return CyberCard(
+    return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -37,7 +36,7 @@ class AnalyticsTrendChart extends StatelessWidget {
           ),
           const SizedBox(height: AppSizes.xs),
           const Text(
-            'Daily scan volume across the active analytics window.',
+            'Daily scan volume across the active analytics window',
             style: AppTextStyles.bodySecondary,
           ),
           const SizedBox(height: AppSizes.xl),
@@ -78,7 +77,7 @@ class _TrendBar extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Text('${bucket.count}', style: AppTextStyles.label),
+        Text('${bucket.count}', style: AppTextStyles.caption),
         const SizedBox(height: AppSizes.xs),
         Expanded(
           child: Align(
@@ -106,7 +105,7 @@ class _TrendBar extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSizes.sm),
-        Text(bucket.label, style: AppTextStyles.label),
+        Text(bucket.label, style: AppTextStyles.caption),
       ],
     );
   }

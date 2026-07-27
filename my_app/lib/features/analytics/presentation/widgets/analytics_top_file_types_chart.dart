@@ -8,27 +8,26 @@ import '../../domain/entities/file_type_metric_entity.dart';
 
 /// Horizontal ranking chart for the most common scanned file types.
 class AnalyticsTopFileTypesChart extends StatelessWidget {
-  /// Creates a top file types chart.
   const AnalyticsTopFileTypesChart({required this.fileTypes, super.key});
 
   final List<FileTypeMetricEntity> fileTypes;
 
   @override
   Widget build(BuildContext context) {
-    return CyberCard(
+    return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('Top File Types', style: AppTextStyles.subheading),
           const SizedBox(height: AppSizes.xs),
           const Text(
-            'Extensions most frequently submitted to the detection pipeline.',
+            'Extensions most frequently submitted to the detection pipeline',
             style: AppTextStyles.bodySecondary,
           ),
           const SizedBox(height: AppSizes.lg),
           if (fileTypes.isEmpty)
             const Text(
-              'No persisted records yet.',
+              'No persisted records yet',
               style: AppTextStyles.bodySecondary,
             )
           else
@@ -68,7 +67,7 @@ class _FileTypeBar extends StatelessWidget {
             ),
             Text(
               '${item.count} scans',
-              style: AppTextStyles.label.copyWith(color: AppColors.textPrimary),
+              style: AppTextStyles.caption.copyWith(color: AppColors.textPrimary),
             ),
           ],
         ),

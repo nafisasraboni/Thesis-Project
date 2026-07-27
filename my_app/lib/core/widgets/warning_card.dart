@@ -5,9 +5,8 @@ import '../theme/app_text_styles.dart';
 import '../utils/scan_classification.dart';
 import 'cyber_card.dart';
 
-/// Prominent warning panel for suspicious or malicious findings.
+/// Premium warning panel for suspicious or malicious findings.
 class WarningCard extends StatelessWidget {
-  /// Creates a warning card.
   const WarningCard({
     required this.classification,
     required this.title,
@@ -21,12 +20,13 @@ class WarningCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CyberCard(
-      backgroundColor: classification.color.withValues(alpha: 0.08),
+    return AppCard(
+      backgroundColor: classification.color.withAlpha(20),
+      borderColor: classification.color,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(classification.icon, color: classification.color, size: 30),
+          Icon(classification.icon, color: classification.color, size: AppSizes.iconLg),
           const SizedBox(width: AppSizes.md),
           Expanded(
             child: Column(

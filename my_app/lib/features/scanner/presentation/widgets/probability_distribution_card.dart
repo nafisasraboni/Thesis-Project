@@ -7,7 +7,6 @@ import '../../../../core/widgets/cyber_card.dart';
 
 /// Displays class probabilities returned by the prediction service.
 class ProbabilityDistributionCard extends StatelessWidget {
-  /// Creates a probability distribution card.
   const ProbabilityDistributionCard({required this.probabilities, super.key});
 
   final Map<String, double> probabilities;
@@ -17,7 +16,7 @@ class ProbabilityDistributionCard extends StatelessWidget {
     final orderedEntries = probabilities.entries.toList()
       ..sort((left, right) => right.value.compareTo(left.value));
 
-    return CyberCard(
+    return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -38,16 +37,19 @@ class ProbabilityDistributionCard extends StatelessWidget {
                       ),
                       Text(
                         '${entry.value.toStringAsFixed(2)}%',
-                        style: AppTextStyles.body,
+                        style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
                   const SizedBox(height: AppSizes.xs),
-                  LinearProgressIndicator(
-                    value: entry.value.clamp(0, 100) / 100,
-                    minHeight: 10,
-                    color: _resolveColor(entry.key),
-                    backgroundColor: AppColors.surfaceSoft,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+                    child: LinearProgressIndicator(
+                      value: entry.value.clamp(0, 100) / 100,
+                      minHeight: 10,
+                      color: _resolveColor(entry.key),
+                      backgroundColor: AppColors.surfaceSoft,
+                    ),
                   ),
                 ],
               ),

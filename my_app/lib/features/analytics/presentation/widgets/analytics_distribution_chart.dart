@@ -9,7 +9,6 @@ import '../../../../core/widgets/cyber_card.dart';
 
 /// Donut chart that visualizes safe, suspicious, and malware ratios.
 class AnalyticsDistributionChart extends StatelessWidget {
-  /// Creates a distribution chart card.
   const AnalyticsDistributionChart({
     required this.safeRatio,
     required this.suspiciousRatio,
@@ -29,14 +28,14 @@ class AnalyticsDistributionChart extends StatelessWidget {
       _DistributionSegment('Malware', malwareRatio, AppColors.danger),
     ];
 
-    return CyberCard(
+    return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('Classification Mix', style: AppTextStyles.subheading),
           const SizedBox(height: AppSizes.xs),
           const Text(
-            'Real-time classification distribution across persisted scan results.',
+            'Real-time classification distribution across persisted scan results',
             style: AppTextStyles.bodySecondary,
           ),
           const SizedBox(height: AppSizes.lg),
@@ -56,7 +55,7 @@ class AnalyticsDistributionChart extends StatelessWidget {
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text('Threat', style: AppTextStyles.label),
+                        Text('Threat', style: AppTextStyles.caption),
                         Text(
                           '${(malwareRatio * 100).toStringAsFixed(1)}%',
                           style: AppTextStyles.metric,
@@ -124,7 +123,7 @@ class _LegendTile extends StatelessWidget {
         Expanded(child: Text(segment.label, style: AppTextStyles.body)),
         Text(
           '${(segment.value * 100).toStringAsFixed(1)}%',
-          style: AppTextStyles.label.copyWith(color: AppColors.textPrimary),
+          style: AppTextStyles.caption.copyWith(color: AppColors.textPrimary),
         ),
       ],
     );
@@ -160,9 +159,7 @@ class _DonutChartPainter extends CustomPainter {
 
     for (final segment in segments) {
       final sweepAngle = math.pi * 2 * segment.value.clamp(0, 1);
-      if (sweepAngle <= 0) {
-        continue;
-      }
+      if (sweepAngle <= 0) continue;
 
       foregroundPaint.color = segment.color;
       canvas.drawArc(

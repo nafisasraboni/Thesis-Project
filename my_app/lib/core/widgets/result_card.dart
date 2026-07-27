@@ -5,9 +5,8 @@ import '../theme/app_text_styles.dart';
 import '../utils/scan_classification.dart';
 import 'cyber_card.dart';
 
-/// Displays a prediction summary with confidence visualization.
+/// Premium prediction summary with confidence visualization.
 class ResultCard extends StatelessWidget {
-  /// Creates a result summary card.
   const ResultCard({
     required this.classification,
     required this.confidence,
@@ -23,13 +22,13 @@ class ResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CyberCard(
+    return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(classification.icon, color: classification.color),
+              Icon(classification.icon, color: classification.color, size: AppSizes.iconMd),
               const SizedBox(width: AppSizes.sm),
               Expanded(
                 child: Text(
@@ -40,7 +39,7 @@ class ResultCard extends StatelessWidget {
                 ),
               ),
               if (processingTime != null)
-                Text(processingTime!, style: AppTextStyles.label),
+                Text(processingTime!, style: AppTextStyles.caption),
             ],
           ),
           const SizedBox(height: AppSizes.lg),

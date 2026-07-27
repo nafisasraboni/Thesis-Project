@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// Reusable text input field styled by the shared theme.
+/// Premium reusable text input field styled by the shared theme.
 class AppTextField extends StatelessWidget {
-  /// Creates a text field.
   const AppTextField({
     super.key,
     this.controller,
@@ -15,6 +14,9 @@ class AppTextField extends StatelessWidget {
     this.obscureText = false,
     this.readOnly = false,
     this.onChanged,
+    this.onSubmitted,
+    this.validator,
+    this.enabled = true,
   });
 
   final TextEditingController? controller;
@@ -26,7 +28,10 @@ class AppTextField extends StatelessWidget {
   final int maxLines;
   final bool obscureText;
   final bool readOnly;
+  final bool enabled;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final FormFieldValidator<String>? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +41,9 @@ class AppTextField extends StatelessWidget {
       maxLines: maxLines,
       obscureText: obscureText,
       readOnly: readOnly,
+      enabled: enabled,
       onChanged: onChanged,
+      onSubmitted: onSubmitted,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

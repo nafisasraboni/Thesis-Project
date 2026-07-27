@@ -7,7 +7,6 @@ import '../../../../core/widgets/cyber_card.dart';
 
 /// Visualizes progress through the staged scanning workflow.
 class ScanStageTimeline extends StatelessWidget {
-  /// Creates a stage timeline.
   const ScanStageTimeline({
     required this.stages,
     required this.currentStageIndex,
@@ -19,7 +18,7 @@ class ScanStageTimeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CyberCard(
+    return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -38,11 +37,11 @@ class ScanStageTimeline extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 300),
                     width: 28,
                     height: 28,
                     decoration: BoxDecoration(
-                      color: color.withValues(alpha: isActive ? 0.2 : 1),
+                      color: color.withAlpha(isActive ? 40 : 255),
                       borderRadius: BorderRadius.circular(AppSizes.radiusSm),
                       border: Border.all(
                         color: isActive ? AppColors.primary : color,
@@ -56,17 +55,17 @@ class ScanStageTimeline extends StatelessWidget {
                             color: AppColors.textPrimary,
                           )
                         : isActive
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(
-                            '${index + 1}',
-                            style: AppTextStyles.label.copyWith(
-                              color: AppColors.textPrimary,
-                            ),
-                          ),
+                            ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : Text(
+                                '${index + 1}',
+                                style: AppTextStyles.label.copyWith(
+                                  color: AppColors.textMuted,
+                                ),
+                              ),
                   ),
                   const SizedBox(width: AppSizes.md),
                   Expanded(

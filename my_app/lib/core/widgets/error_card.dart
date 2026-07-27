@@ -5,9 +5,8 @@ import '../theme/app_sizes.dart';
 import '../theme/app_text_styles.dart';
 import 'cyber_card.dart';
 
-/// Error state card for recoverable failures.
+/// Premium error state card for recoverable failures.
 class ErrorCard extends StatelessWidget {
-  /// Creates an error card.
   const ErrorCard({
     required this.title,
     required this.message,
@@ -23,18 +22,19 @@ class ErrorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CyberCard(
-      backgroundColor: AppColors.danger.withValues(alpha: 0.08),
+    return AppCard(
+      backgroundColor: AppColors.danger.withAlpha(20),
+      borderColor: AppColors.danger,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Row(
             children: [
-              Icon(Icons.error_outline, color: AppColors.danger),
+              Icon(Icons.error_outline, color: AppColors.danger, size: AppSizes.iconMd),
               SizedBox(width: AppSizes.sm),
               Expanded(
                 child: Text(
-                  'Initialization Error',
+                  'Error',
                   style: AppTextStyles.subheading,
                 ),
               ),
@@ -46,7 +46,11 @@ class ErrorCard extends StatelessWidget {
           Text(message, style: AppTextStyles.bodySecondary),
           if (actionLabel != null && onAction != null) ...[
             const SizedBox(height: AppSizes.md),
-            TextButton(onPressed: onAction, child: Text(actionLabel!)),
+            TextButton.icon(
+              onPressed: onAction,
+              icon: const Icon(Icons.refresh, size: AppSizes.iconSm),
+              label: Text(actionLabel!),
+            ),
           ],
         ],
       ),

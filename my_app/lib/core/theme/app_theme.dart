@@ -4,7 +4,7 @@ import 'app_colors.dart';
 import 'app_sizes.dart';
 import 'app_text_styles.dart';
 
-/// Global application theme configuration.
+/// Premium minimal application theme configuration.
 abstract final class AppTheme {
   static final ThemeData darkTheme = ThemeData(
     useMaterial3: true,
@@ -29,12 +29,14 @@ abstract final class AppTheme {
       bodyMedium: AppTextStyles.body,
       bodySmall: AppTextStyles.bodySecondary,
       labelLarge: AppTextStyles.button,
-      labelMedium: AppTextStyles.label,
+      labelMedium: AppTextStyles.caption,
+      labelSmall: AppTextStyles.label,
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.background,
       foregroundColor: AppColors.textPrimary,
       elevation: 0,
+      scrolledUnderElevation: 1,
       centerTitle: false,
       surfaceTintColor: Colors.transparent,
     ),
@@ -44,10 +46,14 @@ abstract final class AppTheme {
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-        side: const BorderSide(color: AppColors.divider),
+        side: BorderSide(color: AppColors.divider.withAlpha(128)),
       ),
     ),
-    dividerColor: AppColors.divider,
+    dividerTheme: const DividerThemeData(
+      color: AppColors.divider,
+      thickness: 1,
+      space: 0,
+    ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: AppColors.primary,
       linearTrackColor: AppColors.surfaceSoft,
@@ -61,30 +67,35 @@ abstract final class AppTheme {
         horizontal: AppSizes.md,
         vertical: AppSizes.md,
       ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+        borderSide: BorderSide(color: AppColors.divider.withAlpha(128)),
+      ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-        borderSide: const BorderSide(color: AppColors.divider),
+        borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+        borderSide: BorderSide(color: AppColors.divider.withAlpha(128)),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-        borderSide: const BorderSide(color: AppColors.primary),
+        borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+        borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.radiusMd),
+        borderRadius: BorderRadius.circular(AppSizes.radiusSm),
         borderSide: const BorderSide(color: AppColors.danger),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(AppSizes.radiusMd),
-        borderSide: const BorderSide(color: AppColors.danger),
+        borderRadius: BorderRadius.circular(AppSizes.radiusSm),
+        borderSide: const BorderSide(color: AppColors.danger, width: 1.5),
       ),
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.surface,
       surfaceTintColor: Colors.transparent,
-      indicatorColor: AppColors.primaryMuted,
+      indicatorColor: AppColors.primaryMuted.withAlpha(100),
+      height: 64,
       labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>(
         (states) => states.contains(WidgetState.selected)
-            ? AppTextStyles.button
+            ? AppTextStyles.label.copyWith(color: AppColors.textPrimary)
             : AppTextStyles.label,
       ),
       iconTheme: WidgetStateProperty.resolveWith<IconThemeData>(
@@ -101,26 +112,41 @@ abstract final class AppTheme {
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.textPrimary,
         elevation: 0,
+        minimumSize: const Size(0, 48),
         padding: const EdgeInsets.symmetric(
-          horizontal: AppSizes.lg,
-          vertical: AppSizes.md,
+          horizontal: AppSizes.xl,
+          vertical: AppSizes.sm,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.radiusMd),
+          borderRadius: BorderRadius.circular(AppSizes.radiusSm),
         ),
+        textStyle: AppTextStyles.button,
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.textPrimary,
-        side: const BorderSide(color: AppColors.divider),
+        side: BorderSide(color: AppColors.divider.withAlpha(180)),
+        minimumSize: const Size(0, 48),
         padding: const EdgeInsets.symmetric(
-          horizontal: AppSizes.lg,
-          vertical: AppSizes.md,
+          horizontal: AppSizes.xl,
+          vertical: AppSizes.sm,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.radiusMd),
+          borderRadius: BorderRadius.circular(AppSizes.radiusSm),
         ),
+        textStyle: AppTextStyles.button,
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: AppColors.primary,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSizes.md,
+          vertical: AppSizes.sm,
+        ),
+        minimumSize: const Size(0, 40),
+        textStyle: AppTextStyles.button,
       ),
     ),
     snackBarTheme: SnackBarThemeData(
@@ -128,13 +154,25 @@ abstract final class AppTheme {
       contentTextStyle: AppTextStyles.body,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppSizes.radiusMd),
+        borderRadius: BorderRadius.circular(AppSizes.radiusSm),
       ),
     ),
     dialogTheme: DialogThemeData(
       backgroundColor: AppColors.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSizes.radiusLg),
+      ),
+    ),
+    switchTheme: SwitchThemeData(
+      thumbColor: WidgetStateProperty.resolveWith<Color>(
+        (states) =>
+            states.contains(WidgetState.selected) ? AppColors.primary : AppColors.textMuted,
+      ),
+      trackColor: WidgetStateProperty.resolveWith<Color>(
+        (states) =>
+            states.contains(WidgetState.selected)
+                ? AppColors.primary.withAlpha(100)
+                : AppColors.surfaceSoft,
       ),
     ),
   );

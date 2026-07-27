@@ -9,14 +9,13 @@ import '../../domain/entities/scan_asset_entity.dart';
 
 /// Displays the metadata for the currently selected scan asset.
 class ScannerSelectionSummary extends StatelessWidget {
-  /// Creates a selection summary.
   const ScannerSelectionSummary({required this.asset, super.key});
 
   final ScanAssetEntity asset;
 
   @override
   Widget build(BuildContext context) {
-    return CyberCard(
+    return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -25,7 +24,7 @@ class ScannerSelectionSummary extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(AppSizes.sm),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.14),
+                  color: AppColors.primary.withAlpha(40),
                   borderRadius: BorderRadius.circular(AppSizes.radiusSm),
                 ),
                 child: Icon(
@@ -33,6 +32,7 @@ class ScannerSelectionSummary extends StatelessWidget {
                       ? Icons.image_outlined
                       : Icons.insert_drive_file_outlined,
                   color: AppColors.primary,
+                  size: AppSizes.iconMd,
                 ),
               ),
               const SizedBox(width: AppSizes.md),
@@ -40,11 +40,11 @@ class ScannerSelectionSummary extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(asset.fileName, style: AppTextStyles.subheading),
+                    Text(asset.fileName, style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),
                     const SizedBox(height: AppSizes.xxs),
                     Text(
                       asset.isImage ? 'Image evidence' : 'Binary file sample',
-                      style: AppTextStyles.bodySecondary,
+                      style: AppTextStyles.caption,
                     ),
                   ],
                 ),
@@ -77,7 +77,7 @@ class _DetailRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(width: 86, child: Text(label, style: AppTextStyles.label)),
+          SizedBox(width: 86, child: Text(label, style: AppTextStyles.caption)),
           const SizedBox(width: AppSizes.sm),
           Expanded(child: SelectableText(value, style: AppTextStyles.body)),
         ],

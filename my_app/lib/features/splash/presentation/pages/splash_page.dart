@@ -11,7 +11,6 @@ import '../providers/splash_controller.dart';
 
 /// Startup screen shown while the application prepares its initial state.
 class SplashPage extends ConsumerWidget {
-  /// Creates the splash page.
   const SplashPage({super.key});
 
   @override
@@ -41,32 +40,34 @@ class SplashPage extends ConsumerWidget {
     final startupState = ref.watch(splashControllerProvider);
 
     return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: ResponsiveContainer(
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 620),
-                    child: startupState.when(
-                      data: (_) => const _SplashContent(),
-                      loading: () => const _SplashContent(),
-                      error: (error, stackTrace) => ErrorCard(
-                        title: 'Startup validation failed',
-                        message: error.toString(),
-                        actionLabel: 'Retry',
-                        onAction: () =>
-                            ref.invalidate(splashControllerProvider),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: ResponsiveContainer(
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 560),
+                      child: startupState.when(
+                        data: (_) => const _SplashContent(),
+                        loading: () => const _SplashContent(),
+                        error: (error, stackTrace) => ErrorCard(
+                          title: 'Startup validation failed',
+                          message: error.toString(),
+                          actionLabel: 'Retry',
+                          onAction: () =>
+                              ref.invalidate(splashControllerProvider),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -82,29 +83,32 @@ class _SplashContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 88,
-          height: 88,
+          width: 80,
+          height: 80,
           decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.18),
+            color: AppColors.primary.withAlpha(40),
             borderRadius: BorderRadius.circular(AppSizes.radiusLg),
             border: Border.all(
-              color: AppColors.primary.withValues(alpha: 0.26),
+              color: AppColors.primary.withAlpha(60),
             ),
           ),
           child: const Icon(
             Icons.security_rounded,
-            size: 42,
-            color: AppColors.textPrimary,
+            size: 38,
+            color: AppColors.primary,
           ),
         ),
         const SizedBox(height: AppSizes.xl),
         Text(AppStrings.appTitle, style: AppTextStyles.display),
         const SizedBox(height: AppSizes.sm),
-        Text(AppStrings.splashHeadline, style: AppTextStyles.subheading),
+        Text(AppStrings.splashHeadline, style: AppTextStyles.heading),
         const SizedBox(height: AppSizes.xs),
-        Text(AppStrings.splashDescription, style: AppTextStyles.bodySecondary),
+        Text(
+          AppStrings.splashDescription,
+          style: AppTextStyles.bodySecondary,
+        ),
         const SizedBox(height: AppSizes.xxl),
-        const CyberCard(
+        const AppCard(
           child: Column(
             children: [
               _SplashChecklistItem(
@@ -123,7 +127,7 @@ class _SplashContent extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSizes.xl),
-        const LinearProgressIndicator(minHeight: 6),
+        const LinearProgressIndicator(minHeight: 4),
       ],
     );
   }
@@ -141,10 +145,12 @@ class _SplashChecklistItem extends StatelessWidget {
         const SizedBox(
           width: 18,
           height: 18,
-          child: CircularProgressIndicator(strokeWidth: 2.2),
+          child: CircularProgressIndicator(strokeWidth: 2.5),
         ),
         const SizedBox(width: AppSizes.md),
-        Expanded(child: Text(label, style: AppTextStyles.body)),
+        Expanded(
+          child: Text(label, style: AppTextStyles.body),
+        ),
       ],
     );
   }

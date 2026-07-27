@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../theme/app_colors.dart';
 import '../theme/app_sizes.dart';
 import '../theme/app_text_styles.dart';
 
-/// Empty state panel used when no records are available.
+/// Premium empty state panel used when no records are available.
 class EmptyState extends StatelessWidget {
-  /// Creates an empty state.
   const EmptyState({
     required this.icon,
     required this.title,
@@ -23,12 +23,20 @@ class EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(AppSizes.xl),
+        padding: const EdgeInsets.symmetric(vertical: AppSizes.xxl, horizontal: AppSizes.xl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 48),
-            const SizedBox(height: AppSizes.md),
+            Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: AppColors.surfaceSoft,
+                borderRadius: BorderRadius.circular(AppSizes.radiusMd),
+              ),
+              child: Icon(icon, size: 32, color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: AppSizes.lg),
             Text(
               title,
               style: AppTextStyles.subheading,
@@ -41,7 +49,7 @@ class EmptyState extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             if (action != null) ...[
-              const SizedBox(height: AppSizes.md),
+              const SizedBox(height: AppSizes.lg),
               action!,
             ],
           ],

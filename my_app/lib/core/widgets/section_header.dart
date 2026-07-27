@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import '../theme/app_sizes.dart';
 import '../theme/app_text_styles.dart';
 
-/// Consistent section heading for pages and grouped content.
+/// Premium consistent section heading for pages and grouped content.
 class SectionHeader extends StatelessWidget {
-  /// Creates a section heading.
   const SectionHeader({
     required this.title,
     super.key,
@@ -19,34 +18,32 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
+        Row(
+          children: [
+            Expanded(
+              child: Text(
                 title,
                 style: AppTextStyles.heading,
                 overflow: TextOverflow.ellipsis,
-                maxLines: 1,
               ),
-              if (subtitle != null) ...[
-                const SizedBox(height: AppSizes.xs),
-                Text(
-                  subtitle!,
-                  style: AppTextStyles.bodySecondary,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                ),
-              ],
+            ),
+            if (trailing != null) ...[
+              const SizedBox(width: AppSizes.md),
+              trailing!,
             ],
-          ),
+          ],
         ),
-        if (trailing != null) ...[
-          const SizedBox(width: AppSizes.md),
-          trailing!,
+        if (subtitle != null) ...[
+          SizedBox(height: AppSizes.xs),
+          Text(
+            subtitle!,
+            style: AppTextStyles.caption,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+          ),
         ],
       ],
     );

@@ -13,7 +13,6 @@ import '../providers/settings_mutation_controller.dart';
 
 /// Settings page for workspace options and project access links.
 class SettingsPage extends ConsumerStatefulWidget {
-  /// Creates the settings page.
   const SettingsPage({super.key});
 
   @override
@@ -59,15 +58,15 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               const SectionHeader(
                 title: 'Workspace Settings',
                 subtitle:
-                    'Persisted runtime configuration for prediction, history retention, and analytics behavior.',
+                    'Persisted runtime configuration for prediction, history retention, and analytics behavior',
               ),
               const SizedBox(height: AppSizes.xl),
               LayoutBuilder(
                 builder: (context, constraints) {
                   final cardWidth =
                       constraints.maxWidth >= AppSizes.tabletBreakpoint
-                      ? (constraints.maxWidth - AppSizes.md) / 2
-                      : constraints.maxWidth;
+                          ? (constraints.maxWidth - AppSizes.md) / 2
+                          : constraints.maxWidth;
 
                   return Wrap(
                     spacing: AppSizes.md,
@@ -75,7 +74,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     children: [
                       SizedBox(
                         width: cardWidth,
-                        child: CyberCard(
+                        child: AppCard(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -86,8 +85,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                               const SizedBox(height: AppSizes.xs),
                               Text(
                                 _useMockPrediction
-                                    ? 'Mock engine enabled for thesis-safe demos and offline validation.'
-                                    : 'Live API mode enabled. Uploaded assets will be submitted to the configured prediction endpoint.',
+                                    ? 'Mock engine enabled for thesis-safe demos and offline validation'
+                                    : 'Live API mode enabled. Uploaded assets will be submitted to the configured prediction endpoint',
                                 style: AppTextStyles.bodySecondary,
                               ),
                               const SizedBox(height: AppSizes.md),
@@ -111,7 +110,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       ),
                       SizedBox(
                         width: cardWidth,
-                        child: CyberCard(
+                        child: AppCard(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -121,15 +120,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                               ),
                               const SizedBox(height: AppSizes.xs),
                               const Text(
-                                'Local history and analytics preferences are persisted in Drift so the UI can survive restarts cleanly.',
+                                'Local history and analytics preferences are persisted in Drift so the UI can survive restarts cleanly',
                                 style: AppTextStyles.bodySecondary,
                               ),
                               const SizedBox(height: AppSizes.md),
                               _KeyValueRow(
                                 label: 'Save Scan History',
-                                value: _saveScanHistory
-                                    ? 'Enabled'
-                                    : 'Disabled',
+                                value: _saveScanHistory ? 'Enabled' : 'Disabled',
                               ),
                               const SizedBox(height: AppSizes.sm),
                               _KeyValueRow(
@@ -150,7 +147,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 },
               ),
               const SizedBox(height: AppSizes.xl),
-              CyberCard(
+              AppCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -159,16 +156,19 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       style: AppTextStyles.subheading,
                     ),
                     const SizedBox(height: AppSizes.md),
-                    SwitchListTile(
-                      value: _useMockPrediction,
-                      contentPadding: EdgeInsets.zero,
-                      title: const Text('Use Mock Prediction Engine'),
-                      subtitle: const Text(
-                        'Keep this enabled during defense demos without a running backend.',
+                    Padding(
+                      padding: EdgeInsets.zero,
+                      child: SwitchListTile(
+                        value: _useMockPrediction,
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text('Use Mock Prediction Engine'),
+                        subtitle: const Text(
+                          'Keep this enabled during defense demos without a running backend',
+                        ),
+                        onChanged: (value) {
+                          setState(() => _useMockPrediction = value);
+                        },
                       ),
-                      onChanged: (value) {
-                        setState(() => _useMockPrediction = value);
-                      },
                     ),
                     const SizedBox(height: AppSizes.sm),
                     AppTextField(
@@ -178,16 +178,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       prefixIcon: const Icon(Icons.link_outlined),
                     ),
                     const SizedBox(height: AppSizes.md),
-                    _SettingsDropdown<int>(
+                    _AppDropdown<int>(
                       label: 'Request Timeout',
                       value: _requestTimeoutSeconds,
                       items: AppSettingsEntity.supportedTimeouts,
                       itemLabel: (value) => '$value seconds',
                       onChanged: (value) {
-                        if (value == null) {
-                          return;
-                        }
-
+                        if (value == null) return;
                         setState(() => _requestTimeoutSeconds = value);
                       },
                     ),
@@ -195,7 +192,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 ),
               ),
               const SizedBox(height: AppSizes.md),
-              CyberCard(
+              AppCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -204,28 +201,28 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       style: AppTextStyles.subheading,
                     ),
                     const SizedBox(height: AppSizes.md),
-                    SwitchListTile(
-                      value: _saveScanHistory,
-                      contentPadding: EdgeInsets.zero,
-                      title: const Text('Persist Completed Scans'),
-                      subtitle: const Text(
-                        'When disabled, completed scans remain visible in the current session but are not stored in local history.',
+                    Padding(
+                      padding: EdgeInsets.zero,
+                      child: SwitchListTile(
+                        value: _saveScanHistory,
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text('Persist Completed Scans'),
+                        subtitle: const Text(
+                          'When disabled, completed scans remain visible in the current session but are not stored in local history',
+                        ),
+                        onChanged: (value) {
+                          setState(() => _saveScanHistory = value);
+                        },
                       ),
-                      onChanged: (value) {
-                        setState(() => _saveScanHistory = value);
-                      },
                     ),
                     const SizedBox(height: AppSizes.sm),
-                    _SettingsDropdown<int>(
+                    _AppDropdown<int>(
                       label: 'Analytics Window',
                       value: _analyticsWindowDays,
                       items: AppSettingsEntity.supportedAnalyticsWindows,
                       itemLabel: (value) => '$value days',
                       onChanged: (value) {
-                        if (value == null) {
-                          return;
-                        }
-
+                        if (value == null) return;
                         setState(() => _analyticsWindowDays = value);
                       },
                     ),
@@ -260,7 +257,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 ],
               ),
               const SizedBox(height: AppSizes.md),
-              CyberCard(
+              AppCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -308,7 +305,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               ),
             ],
           ),
-          loading: () => const CyberCard(
+          loading: () => const AppCard(
             child: SizedBox(
               height: 180,
               child: Center(child: CircularProgressIndicator()),
@@ -324,9 +321,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   }
 
   void _hydrateFormIfNeeded(AppSettingsEntity settings) {
-    if (_loadedSettings != null) {
-      return;
-    }
+    if (_loadedSettings != null) return;
 
     _loadedSettings = settings;
     _useMockPrediction = settings.useMockPrediction;
@@ -363,8 +358,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         await CustomDialog.showAppDialog<void>(
           context: context,
           title: 'Invalid Endpoint',
-          message:
-              'Live prediction mode requires a valid HTTP or HTTPS base URL.',
+          message: 'Live prediction mode requires a valid HTTP or HTTPS base URL.',
           icon: const Icon(Icons.error_outline, color: AppColors.danger),
         );
         return;
@@ -382,18 +376,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     try {
       await controller.saveSettings(settings);
       _loadedSettings = settings;
-      if (!context.mounted) {
-        return;
-      }
+      if (!context.mounted) return;
 
-      CustomSnackbar.showSuccess(
-        context,
-        'Workspace settings saved successfully.',
-      );
+      CustomSnackbar.showSuccess(context, 'Workspace settings saved');
     } catch (error) {
-      if (!context.mounted) {
-        return;
-      }
+      if (!context.mounted) return;
 
       await CustomDialog.showAppDialog<void>(
         context: context,
@@ -420,15 +407,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         _endpointController.text = defaults.predictionBaseUrl;
       });
 
-      if (!context.mounted) {
-        return;
-      }
+      if (!context.mounted) return;
 
-      CustomSnackbar.showInfo(context, 'Default settings restored.');
+      CustomSnackbar.showInfo(context, 'Default settings restored');
     } catch (error) {
-      if (!context.mounted) {
-        return;
-      }
+      if (!context.mounted) return;
 
       await CustomDialog.showAppDialog<void>(
         context: context,
@@ -440,8 +423,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   }
 }
 
-class _SettingsDropdown<T> extends StatelessWidget {
-  const _SettingsDropdown({
+class _AppDropdown<T> extends StatelessWidget {
+  const _AppDropdown({
     required this.label,
     required this.value,
     required this.items,
@@ -481,12 +464,24 @@ class _KeyValueRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: Text(label, style: AppTextStyles.bodySecondary)),
         Expanded(
+          flex: 3,
+          child: Text(
+            label,
+            style: AppTextStyles.bodySecondary,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ),
+        const SizedBox(width: AppSizes.sm),
+        Flexible(
+          flex: 4,
           child: Text(
             value,
             style: AppTextStyles.body,
             textAlign: TextAlign.end,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ),
       ],

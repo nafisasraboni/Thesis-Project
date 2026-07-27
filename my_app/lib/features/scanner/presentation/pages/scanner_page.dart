@@ -14,7 +14,6 @@ import '../widgets/scanner_selection_summary.dart';
 
 /// Scanner workspace for file and image based prediction requests.
 class ScannerPage extends ConsumerWidget {
-  /// Creates the scanner page.
   const ScannerPage({super.key});
 
   @override
@@ -61,7 +60,7 @@ class ScannerPage extends ConsumerWidget {
             SectionHeader(
               title: 'Upload Sources',
               subtitle:
-                  'Select a binary file or image sample. The UI is already bound to a repository-driven prediction workflow.',
+                  'Select a binary file or image sample for analysis',
               trailing: PrimaryButton(
                 label: 'Scan Now',
                 icon: Icons.play_arrow_rounded,
@@ -76,8 +75,8 @@ class ScannerPage extends ConsumerWidget {
               builder: (context, constraints) {
                 final cardWidth =
                     constraints.maxWidth >= AppSizes.tabletBreakpoint
-                    ? (constraints.maxWidth - AppSizes.md) / 2
-                    : constraints.maxWidth;
+                        ? (constraints.maxWidth - AppSizes.md) / 2
+                        : constraints.maxWidth;
 
                 return Wrap(
                   spacing: AppSizes.md,
@@ -128,7 +127,7 @@ class ScannerPage extends ConsumerWidget {
               const SectionHeader(
                 title: 'Selected Asset',
                 subtitle:
-                    'File metadata is prepared for hashing, preview, and multipart submission.',
+                    'File metadata prepared for hashing, preview, and multipart submission',
               ),
               const SizedBox(height: AppSizes.md),
               _SelectedAssetPanel(
@@ -140,7 +139,7 @@ class ScannerPage extends ConsumerWidget {
             const SectionHeader(
               title: 'Detection Pipeline',
               subtitle:
-                  'Each scan progresses through the same staged workflow expected by the CNN + Bi-LSTM backend.',
+                  'Each scan progresses through the staged workflow expected by the CNN + Bi-LSTM backend',
             ),
             const SizedBox(height: AppSizes.md),
             ScanStageTimeline(
@@ -148,19 +147,20 @@ class ScannerPage extends ConsumerWidget {
               currentStageIndex: state.currentStageIndex,
             ),
             const SizedBox(height: AppSizes.xl),
-            CyberCard(
+            AppCard(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     padding: const EdgeInsets.all(AppSizes.sm),
                     decoration: BoxDecoration(
-                      color: AppColors.info.withValues(alpha: 0.14),
+                      color: AppColors.info.withAlpha(40),
                       borderRadius: BorderRadius.circular(AppSizes.radiusSm),
                     ),
                     child: const Icon(
                       Icons.integration_instructions_outlined,
                       color: AppColors.info,
+                      size: AppSizes.iconMd,
                     ),
                   ),
                   const SizedBox(width: AppSizes.md),
@@ -241,7 +241,7 @@ class _SelectedAssetPanel extends StatelessWidget {
                       fileName: asset.fileName,
                       onRemove: onClear,
                     )
-                  : CyberCard(
+                  : AppCard(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

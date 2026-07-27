@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_sizes.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_formatters.dart';
@@ -11,7 +10,6 @@ import '../widgets/probability_distribution_card.dart';
 
 /// Dedicated result screen for a completed malware prediction.
 class ScanResultPage extends StatelessWidget {
-  /// Creates a scan result page.
   const ScanResultPage({required this.report, super.key});
 
   final ScanReportEntity report;
@@ -23,9 +21,9 @@ class ScanResultPage extends StatelessWidget {
     final classification = prediction.classification;
 
     return Scaffold(
-      appBar: const CyberAppBar(
+      appBar: const AppAppBar(
         title: 'Prediction Result',
-        subtitle: 'Detailed assessment generated from the detection pipeline.',
+        subtitle: 'Detailed assessment from the detection pipeline',
       ),
       body: SingleChildScrollView(
         child: ResponsiveContainer(
@@ -35,7 +33,7 @@ class ScanResultPage extends StatelessWidget {
               SectionHeader(
                 title: prediction.prediction,
                 subtitle:
-                    'Threat Level: ${prediction.threatLevel} | Scan Date: ${AppFormatters.formatDateTime(report.scanDate)}',
+                    'Threat Level: ${prediction.threatLevel} | ${AppFormatters.formatDateTime(report.scanDate)}',
               ),
               const SizedBox(height: AppSizes.xl),
               ResultCard(
@@ -72,7 +70,7 @@ class ScanResultPage extends StatelessWidget {
                       ),
                       SizedBox(
                         width: leftWidth,
-                        child: CyberCard(
+                        child: AppCard(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -81,24 +79,24 @@ class ScanResultPage extends StatelessWidget {
                                 style: AppTextStyles.subheading,
                               ),
                               const SizedBox(height: AppSizes.lg),
-                              _ResultDetailRow(
+                              _DetailRow(
                                 label: 'Prediction',
                                 value: prediction.prediction,
                               ),
-                              _ResultDetailRow(
+                              _DetailRow(
                                 label: 'Confidence',
                                 value:
                                     '${prediction.confidence.toStringAsFixed(2)}%',
                               ),
-                              _ResultDetailRow(
+                              _DetailRow(
                                 label: 'Processing Time',
                                 value: prediction.processingTime,
                               ),
-                              _ResultDetailRow(
+                              _DetailRow(
                                 label: 'Threat Level',
                                 value: prediction.threatLevel,
                               ),
-                              _ResultDetailRow(
+                              _DetailRow(
                                 label: 'Scan Date',
                                 value: AppFormatters.formatDateTime(
                                   report.scanDate,
@@ -113,22 +111,22 @@ class ScanResultPage extends StatelessWidget {
                 },
               ),
               const SizedBox(height: AppSizes.xl),
-              CyberCard(
+              AppCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text('File Details', style: AppTextStyles.subheading),
                     const SizedBox(height: AppSizes.lg),
-                    _ResultDetailRow(label: 'File Name', value: asset.fileName),
-                    _ResultDetailRow(
+                    _DetailRow(label: 'File Name', value: asset.fileName),
+                    _DetailRow(
                       label: 'Extension',
                       value: asset.extension.toUpperCase(),
                     ),
-                    _ResultDetailRow(
+                    _DetailRow(
                       label: 'Size',
                       value: AppFormatters.formatFileSize(asset.sizeInBytes),
                     ),
-                    _ResultDetailRow(label: 'SHA256', value: asset.sha256),
+                    _DetailRow(label: 'SHA256', value: asset.sha256),
                   ],
                 ),
               ),
@@ -169,8 +167,8 @@ class ScanResultPage extends StatelessWidget {
   }
 }
 
-class _ResultDetailRow extends StatelessWidget {
-  const _ResultDetailRow({required this.label, required this.value});
+class _DetailRow extends StatelessWidget {
+  const _DetailRow({required this.label, required this.value});
 
   final String label;
   final String value;
@@ -182,12 +180,15 @@ class _ResultDetailRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(width: 120, child: Text(label, style: AppTextStyles.label)),
+          SizedBox(
+            width: 120,
+            child: Text(label, style: AppTextStyles.caption),
+          ),
           const SizedBox(width: AppSizes.sm),
           Expanded(
             child: SelectableText(
               value,
-              style: AppTextStyles.body.copyWith(color: AppColors.textPrimary),
+              style: AppTextStyles.body,
             ),
           ),
         ],
