@@ -1,2 +1,6 @@
 Analyzing lib...
-No issues found!
+
+warning - main.dart:3:8 - Unused import: 'package:supabase_flutter/supabase_flutter.dart'. Try removing the import directive. - unused_import
+   info - core\services\supabase_service.dart:31:7 - 'anonKey' is deprecated and shouldn't be used. Use publishableKey instead. anonKey will be removed in a future major version. Try replacing the use of the deprecated member with the replacement. - deprecated_member_use
+
+2 issues found.

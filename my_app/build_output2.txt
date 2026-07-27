@@ -1,0 +1,48 @@
+Running Gradle task 'assembleRelease'...                        
+
+f:\GitHUB\Thesis-Project\my_app\android>if "Windows_NT" == "Windows_NT" setlocal
+
+f:\GitHUB\Thesis-Project\my_app\android>set DEFAULT_JVM_OPTS= 
+
+f:\GitHUB\Thesis-Project\my_app\android>set DIRNAME=f:\GitHUB\Thesis-Project\my_app\android\ 
+
+f:\GitHUB\Thesis-Project\my_app\android>if "f:\GitHUB\Thesis-Project\my_app\android\" == "" set DIRNAME=. 
+
+f:\GitHUB\Thesis-Project\my_app\android>set APP_BASE_NAME=gradlew 
+
+f:\GitHUB\Thesis-Project\my_app\android>set APP_HOME=f:\GitHUB\Thesis-Project\my_app\android\ 
+
+f:\GitHUB\Thesis-Project\my_app\android>if defined JAVA_HOME goto findJavaFromJavaHome 
+
+f:\GitHUB\Thesis-Project\my_app\android>set JAVA_EXE=java.exe 
+
+f:\GitHUB\Thesis-Project\my_app\android>java.exe -version  1>NUL 2>&1 
+
+f:\GitHUB\Thesis-Project\my_app\android>if "0" == "0" goto init 
+
+f:\GitHUB\Thesis-Project\my_app\android>if not "Windows_NT" == "Windows_NT" goto win9xME_args 
+
+f:\GitHUB\Thesis-Project\my_app\android>if "@eval[2+2]" == "4" goto 4NT_args 
+
+f:\GitHUB\Thesis-Project\my_app\android>set CMD_LINE_ARGS= 
+
+f:\GitHUB\Thesis-Project\my_app\android>set _SKIP=2 
+
+f:\GitHUB\Thesis-Project\my_app\android>if "x-q" == "x" goto execute 
+
+f:\GitHUB\Thesis-Project\my_app\android>set CMD_LINE_ARGS=-q -Ptarget-platform=android-arm,android-arm64,android-x64 -Ptarget=lib\main.dart -Pbase-application-name=android.app.Application -Pdart-defines=RkxVVFRFUl9WRVJTSU9OPTMuNDQuOA==,RkxVVFRFUl9DSEFOTkVMPXN0YWJsZQ==,RkxVVFRFUl9HSVRfVVJMPWh0dHBzOi8vZ2l0aHViLmNvbS9mbHV0dGVyL2ZsdXR0ZXIuZ2l0,RkxVVFRFUl9GUkFNRVdPUktfUkVWSVNJT049MDU4ZTBhZjJjMg==,RkxVVFRFUl9FTkdJTkVfUkVWSVNJT049MGNkNjEwNzE3Yg==,RkxVVFRFUl9EQVJUX1ZFUlNJT049My4xMi4y -Pdart-obfuscation=false -Ptrack-widget-creation=true -Ptree-shake-icons=true assembleRelease 
+
+f:\GitHUB\Thesis-Project\my_app\android>goto execute 
+
+f:\GitHUB\Thesis-Project\my_app\android>set CLASSPATH=f:\GitHUB\Thesis-Project\my_app\android\\gradle\wrapper\gradle-wrapper.jar 
+
+f:\GitHUB\Thesis-Project\my_app\android>"java.exe"    "-Dorg.gradle.appname=gradlew" -classpath "f:\GitHUB\Thesis-Project\my_app\android\\gradle\wrapper\gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain -q -Ptarget-platform=android-arm,android-arm64,android-x64 -Ptarget=lib\main.dart -Pbase-application-name=android.app.Application -Pdart-defines=RkxVVFRFUl9WRVJTSU9OPTMuNDQuOA==,RkxVVFRFUl9DSEFOTkVMPXN0YWJsZQ==,RkxVVFRFUl9HSVRfVVJMPWh0dHBzOi8vZ2l0aHViLmNvbS9mbHV0dGVyL2ZsdXR0ZXIuZ2l0,RkxVVFRFUl9GUkFNRVdPUktfUkVWSVNJT049MDU4ZTBhZjJjMg==,RkxVVFRFUl9FTkdJTkVfUkVWSVNJT049MGNkNjEwNzE3Yg==,RkxVVFRFUl9EQVJUX1ZFUlNJT049My4xMi4y -Pdart-obfuscation=false -Ptrack-widget-creation=true -Ptree-shake-icons=true assembleRelease 
+Font asset "CupertinoIcons.ttf" was tree-shaken, reducing it from 257628 to 848 bytes (99.7% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+Font asset "MaterialIcons-Regular.otf" was tree-shaken, reducing it from 1645184 to 8812 bytes (99.5% reduction). Tree-shaking can be disabled by providing the --no-tree-shake-icons flag when building your app.
+
+f:\GitHUB\Thesis-Project\my_app\android>if "0" == "0" goto mainEnd 
+
+f:\GitHUB\Thesis-Project\my_app\android>if "Windows_NT" == "Windows_NT" endlocal
+Running Gradle task 'assembleRelease'...                          312.5s
+√ Built build\app\outputs\flutter-apk\app-release.apk (58.6MB)
+BUILD_EXIT_CODE=0 

@@ -2,7 +2,7 @@
 abstract final class ApiConfig {
   static const String defaultBaseUrl = String.fromEnvironment(
     'PREDICTION_API_BASE_URL',
-    defaultValue: 'http://127.0.0.1:8000',
+    defaultValue: 'https://bi-lstmcnn-production.up.railway.app',
   );
 
   static const bool defaultUseMockPrediction = bool.fromEnvironment(
